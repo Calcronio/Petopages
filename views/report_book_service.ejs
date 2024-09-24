@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <%- include('./partials/head'); -%>
+    
+</head>
+<body onload="startTime()">
+    <%- include('./partials/header_sidebar'); -%>
+    
+    <!-- tap on top starts-->
+
+        <!-- Page Sidebar Ends-->
+        <div class="page-body">
+          <div class="container-fluid">
+            <div class="page-title">
+              <div class="row">
+                <div class="col-sm-6">
+                  <h3><%=lan.Book%> <%=lan.Service%> <%=lan.Report%></h3>
+                </div>
+                <div class="col-sm-6">
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                    <li class="breadcrumb-item"><%=lan.Dashboard%></li>
+                    <li class="breadcrumb-item active"><%=lan.Book%> <%=lan.Service%> <%=lan.Report%></li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Container-fluid starts-->
+          <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="row col-12 card-header d-flex justify-content-end pb-0 <%= auth.admin_role != 1 ? 'd-none' : '' %>">
+                            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 form-group m-0">
+                                <label class="col-form-label"><%=lan.Sitter%> <%=lan.List%></label>
+                                <select class="js-example-basic-single" id="rsbooksitter">
+                                    <option value selected disabled><%=lan.Select%> <%=lan.Sitter%></option>
+                                    <% sitter.forEach((data) => { %>
+                                        <option value="<%=data.id%>"><%=data.name%></option>
+                                    <% }) %>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row col-12">
+                                <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 form-group">
+                                    <label class="col-form-label"><%=lan.Start%> <%=lan.Date%></label>
+                                    <input class="form-control" id="rsbookstart" type="date">
+                                </div>
+                                <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 form-group">
+                                    <label class="col-form-label"><%=lan.End%> <%=lan.Date%></label>
+                                    <input class="form-control" id="rsbookend" type="date">
+                                </div>
+                                <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 form-group">
+                                    <label class="col-form-label"><%=lan.Services%> <%=lan.Status%> <%=lan.List%></label>
+                                    <select class="js-example-basic-single" id="rsbookstatus">
+                                        <option value selected disabled><%=lan.Select%> <%=lan.Status%></option>
+                                        <% Status.forEach((data) => { %>
+                                            <option value="<%=data.id%>"><%=data.name%></option>
+                                        <% }) %>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row col-12">
+
+                                <div class="table-responsive theme-scrollbar" id="printcontent">
+                                    <table class="display" id="basic-1">
+                                        <thead>
+                                            <tr>
+                                                <th class="d-none"></th>
+                                                <th><%=lan.Service%> <%=lan.Id%></th>
+                                                <th><%=lan.Customer%> <%=lan.Name%></th>
+                                                <th><%=lan.Sitter%> <%=lan.Name%></th>
+                                                <th><%=lan.Price%></th>
+                                                <th><%=lan.Date%></th>
+                                                <th><%=lan.Status%></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="service_report">
+                                            <% allservices.forEach((data) => { %>
+                                                <tr>
+                                                    <td class="d-none"></td>
+                                                    <td>#<%= data.order_id %></td>
+                                                    <td><%= data.cus_name %></td>
+                                                    <td><%= data.sitt_name %></td>
+                                                    <td class="invosymbol"><%= data.tot_price %></td>
+                                                    <td><%= data.date %></td>
+                                                    <td>
+                                                        <% if (data.status == '1' || data.status == '4' || data.status == '5') { %>
+                                                            <span class="badge badge-warning"><%= data.sta_name %></span>
+                                                        <% } else if (data.status == '2') { %>
+                                                            <span class="badge badge-primary"><%= data.sta_name %></span>
+                                                        <% } else if (data.status == '3') { %>
+                                                            <span class="badge badge-danger"><%= data.sta_name %></span>
+                                                        <% } else if (data.status == '6') { %>
+                                                            <span class="badge badge-success"><%= data.sta_name %></span>
+                                                        <% } %>
+                                                    </td>
+                                                </tr>
+                                            <% }) %>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+
+                            <div class="row col-12 mt-4">
+                                <div class="col-sm-12 col-md-7 col-lg-7 col-xl-7">
+                                    <h5><%=lan.total%> <%=lan.Book%> <%=lan.Service%> :- <span id="dbookr"><%=torder%></span></h5>
+                                </div>
+                                <% let permissions = per != "1" ? per.report[1] : "1" %>
+                                <% if(permissions == "1"){ %>
+                                <div class="row col-sm-0 col-md-0 col-lg-5 col-xl-5">
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                        <button class="btn btn-primary btn-block" id="printdata"><%=lan.Print%> <%=lan.Report%></button>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 ul_padding">
+                                        <button class="btn btn-primary btn-block" id="dbookreport"><%=lan.Download%> <%=lan.Report%></button>
+                                    </div>
+                                </div>
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+          <!-- Container-fluid Ends-->
+        </div>
+
+    <%- include('./partials/footer'); -%>
+    <%- include('./partials/script'); -%>
+  </body>
+</html>

@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <%- include('./partials/head'); -%>
+    
+</head>
+<body onload="startTime()">
+    <%- include('./partials/header_sidebar'); -%>
+    
+    <!-- tap on top starts-->
+
+        <!-- Page Sidebar Ends-->
+        <div class="page-body">
+            <div class="container-fluid">
+              <div class="page-title">
+                <div class="row">
+                  <div class="col-sm-6">
+                    <h3><%=lan.Service%> <%=lan.Detail%></h3>
+                  </div>
+                  <div class="col-sm-6">
+                    <ol class="breadcrumb">
+                      <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                      <li class="breadcrumb-item"><%=lan.Dashboard%></li>
+                      <li class="breadcrumb-item active"><%=lan.Service%> <%=lan.Detail%></li>
+                    </ol>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Container-fluid starts-->
+            <div class="container-fluid ">
+                <div class="row">
+
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row"> 
+                                    <div class="col-sm-12 col-md-4 col-lg-4 col-xl-2 text-center">
+                                        <div>
+                                            <h5 class="m-0"><%=lan.Service%> <%=lan.Id%> :- <span>#<%= order_detail.order_id %></span></h5>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-4 col-lg-4 col-xl-8 text-center ul_padding">
+                                        <div>
+                                            <h5 class="m-0"><%=lan.Order%> <%=lan.Status%> :- 
+
+                                                <% if (order_detail.status == '1' || order_detail.status == '4' || order_detail.status == '5') { %>
+                                                    <span class="badge badge-warning p-1"><%= order_detail.order_status %></span>
+                                                <% } else if (order_detail.status == '2') { %>
+                                                    <span class="badge badge-primary p-1"><%= order_detail.order_status %></span>
+                                                <% } else if (order_detail.status == '3') { %>
+                                                    <span class="badge badge-danger p-1"><%= order_detail.order_status %></span>
+                                                    <i class="fa fa-info-circle f-16" data-bs-toggle="tooltip" data-bs-placement="Top" title="<%= order_detail.reject_reason %>"></i>
+                                                <% } else if (order_detail.status == '6') { %>
+                                                    <span class="badge badge-success p-1"><%= order_detail.order_status %></span>
+                                                <% } %>
+                                            </h5>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-4 col-lg-4 col-xl-2 text-center ul_padding">
+                                        <div>
+                                            <h5 class="m-0"><%=lan.Date%> :- <span class="f-15 f-w-400"><%= order_detail.date %></span></h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12">
+                        <div class="card">
+                            <div class="card-header border-bottom pb-2 pt-4">
+                                <h5><%=lan.Sitter%></h5>    
+                            </div>
+                            <div class="card-body">
+                                <div class="row"> 
+                                    <div class="col-sm-12 col-md-2 col-lg-2 col-xl-2">
+                                        <img class="img-fluid rounded-3" style="height: 115px; width: 115px;" src="../../<%= order_detail.sitter_logo %>" alt="image">
+                                    </div>
+                                    <div class="col-sm-0 col-md-0 col-lg-1 col-xl-1"></div>
+                                    <div class="col-sm-12 col-md-2 col-lg-2 col-xl-3 ul_padding">
+                                        <h5><%=lan.Sitter%> <%=lan.Name%></h5>
+                                        <span><%= order_detail.sitter_name %></span>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 ul_padding">
+                                        <div>
+                                            <h5><%=lan.Service%></h5>
+                                            <span><%= order_detail.service_name %></span>
+                                        </div>
+                                        <div class="pt-4">
+                                            <h5><%=lan.Service%> <%=lan.Price%></h5>
+                                            <span><%= order_detail.service_price %></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 ul_padding">
+                                        <div>
+                                            <h5><%=lan.Sub%> <%=lan.Service%></h5>
+                                            <span><%= order_detail.sub_sname %></span>
+                                        </div>
+                                        <div class="pt-4">
+                                            <h5><%=lan.Service%> <%=lan.Price%> <%=lan.Type%></h5>
+                                            <span><%= order_detail.price_type %></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="card">
+                            <div class="card-header border-bottom pb-2 pt-4">
+                                <h5><%=lan.Address%></h5>    
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                        <div>
+                                            <h5><%=lan.House%> <%=lan.No%>.</h5>
+                                            <span><%= Address_data.house_no %></span>
+                                        </div>
+                                        <div class="pt-4">
+                                            <h5><%=lan.Landmark%></h5>
+                                            <span><%= Address_data.landmark %></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 ul_padding">
+                                        <div>
+                                            <h5><%=lan.Contact%> <%=lan.No%>.</h5>
+                                            <span><%= Address_data.country_code %> <%= Address_data.phone %></span>
+                                        </div>
+                                        <div class="pt-4">
+                                            <h5><%=lan.Address%> <%=lan.As%></h5>
+                                            <span><%= Address_data.address_as %></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 pt-4">
+                                        <div>
+                                            <h5><%=lan.Full%> <%=lan.Address%></h5>
+                                            <span><%= Address_data.address %></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header border-bottom pb-2 pt-4">
+                                <h5><%=lan.Pet%></h5>    
+                            </div>
+                            <div class="card-body">
+                                <div class="row"> 
+                                    <% pet_data.forEach((petdata) => { %>
+                                    <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4 text-center">
+                                        <a ><img class="img-fluid rounded-3" style="height: 100px; width: 120px;" src="../../<%=petdata.image%>" alt="image">
+                                            <h5 class="pt-1"><%=petdata.name%></h5>
+                                        </a>
+                                    </div>
+                                    <% }) %>
+                                </div>
+                            </div>
+                        </div>
+
+                        <% if(order_detail.front_code != "" || order_detail.front_note != ""){ %>
+                            <div class="card">
+                                <div class="card-header border-bottom pb-2 pt-4">
+                                    <h5><%=lan.Front%> <%=lan.Detail%></h5>    
+                                </div>
+                                <div class="card-body">
+                                    <div class="row"> 
+                                        <% if(order_detail.front_code != "" ){ %>
+                                            <div class="my-1">
+                                                <h5><%=lan.Code%> &nbsp; : &nbsp; <span class="f-w-400"><%= order_detail.front_code %></span></h5>
+                                            </div>
+                                        <% }; %>
+                                        <% if(order_detail.front_note != ""){ %>
+                                            <div class="my-1">
+                                                <h5><%=lan.Note%> &nbsp; : &nbsp; <span class="f-w-400"><%= order_detail.front_note %></span></h5>
+                                            </div>
+                                        <% }; %>
+                                    </div>
+                                </div>
+                            </div>
+                        <% }; %>
+
+                    </div>
+
+
+
+                    <div class="col-sm-6">
+                        <div class="card">
+                            <div class="card-header border-bottom pb-2 pt-4">
+                                <h5><%=lan.Service%> <%=lan.Calculation%></h5>    
+                            </div>
+                            <div class="card-body">
+                                <div class="row"> 
+                                    <div class="text-end">
+                                        <% if (order_detail.coupon_amount != "0"){ %>
+                                            <div class="my-1">
+                                                <h5><%=lan.Coupon%> &nbsp; : &nbsp; <span class="invosymbol"><%= order_detail.coupon_amount %></span></h5>
+                                            </div>
+                                        <% }; %>
+                                        <div class="my-1">
+                                            <h5><%=lan.Sitter%> <%=lan.Commission%> &nbsp; : &nbsp; <span class="invosymbol"><%= order_detail.sitter_commission %></span></h5>
+                                        </div>
+                                        <% if (auth.admin_role == "1"){ %>
+                                        <div class="my-1">
+                                            <h5><%=lan.Site%> <%=lan.Commission%> &nbsp; : &nbsp; <span class="invosymbol"><%= order_detail.site_commisiion %></span></h5>
+                                        </div>
+                                        <% }; %>
+                                        <% if (order_detail.additional_price != "0"){ %>
+                                            <div class="my-1">
+                                                <h5><%=lan.Additional%> <%=lan.Pet%> <%=lan.Price%> &nbsp; : &nbsp; <span class="invosymbol"><%= order_detail.additional_price %></span></h5>
+                                            </div>
+                                        <% }; %>
+                                        <% if (date_price != "0"){ %>
+                                            <div class="my-1">
+                                                <h5><%=lan.Hourly%> <%=lan.Price%> ( <%=tot_hour %> X <%=order_detail.service_price%> ) &nbsp; : &nbsp; <span class="invosymbol"><%= date_price %></span></h5>
+                                            </div>
+                                        <% }; %>
+                                        <% if (order_detail.online_payment != "0"){ %>
+                                            <div class="my-1">
+                                                <h5><%=lan.Online%> <%=lan.Payment%> ( <%=order_detail.online_payment%> ) &nbsp; : &nbsp; <span class="invosymbol"><%= order_detail.online_amount %></span></h5>
+                                            </div>
+                                        <% }; %>
+                                        <% if (order_detail.wallet_payment != "0"){ %>
+                                            <div class="my-1">
+                                                <h5><%=lan.Wallet%> <%=lan.Payment%> &nbsp; : &nbsp; <span class="invosymbol"><%= order_detail.wallet_amount %></span></h5>
+                                            </div>
+                                        <% }; %>
+                                        <% if (order_detail.diff_amount != ""){ %>
+                                            <div class="my-1">
+                                                <h5><%=lan.Difference%> <%=lan.Amount%> &nbsp; : &nbsp; -<span class="invosymbol"><%= order_detail.diff_amount %></span></h5>
+                                            </div>
+                                        <% }; %>
+                                        <div class="my-1">
+                                            <h5><%=lan.Total%> <%=lan.Payment%> &nbsp; : &nbsp; <span class="invosymbol"><%= order_detail.tot_price %></span></h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header border-bottom pb-2 pt-4">
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 text-center">
+                                        <h5><%=lan.Book%> <%=lan.Date%></h5>    
+                                    </div>
+                                    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 text-center">
+                                        <h5><%=lan.Start%> <%=lan.Time%></h5>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 text-center">
+                                        <h5><%=lan.End%> <%=lan.Time%></h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    
+                                    <% var i = 1 %>
+                                    <% date_data.forEach((orderdata) => { %>
+                                        <div class="row col-12 mb-3 ">
+                                            <h5 class="mb-0">Date : <%=orderdata.date%></h5>
+                                            
+                                            <% orderdata.times.forEach((timedata) => { %>
+
+                                            <% if (timedata.check == '0'){ %>
+
+                                                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 p-2">
+                                                    <button class="btn btn-square btn-light" type="button"><%=timedata.time%></button>
+                                                </div>
+
+                                            <% } else if(timedata.check == '1'){ %>
+
+                                                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 p-2">
+                                                    <button class="btn btn-square btn-danger" type="button"><%=timedata.time%></button>
+                                                </div>
+
+
+                                            <% } else if(timedata.check == '2'){ %>
+
+                                                <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 p-2">
+                                                    <button class="btn btn-square btn-success" type="button"><%=timedata.time%></button>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 p-2 text-center">
+                                                    <% if(timedata.img != ""){ %>
+                                                        <a href="../../<%= timedata.img %>" target="_blank"><img class="m-r-10" width="45px" height="41px" src="../../<%= timedata.img %>" alt="image"></a>
+                                                    <% }; %>
+                                                    <label class="mb-0"><%=timedata.start%></label>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 p-2 text-center">
+                                                    <label class="mb-0"><%=timedata.end%></label>
+                                                </div>
+
+
+                                            <% } else if(timedata.check == '3'){ %>
+
+                                                <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 p-2">
+                                                    <button class="btn btn-square btn-success" type="button"><%=timedata.time%></button>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 p-2 text-center">
+                                                    <% if(timedata.img != ""){ %>
+                                                        <a href="../../<%= timedata.img %>" target="_blank"><img class="m-r-10" width="45px" height="41px" src="../../<%= timedata.img %>" alt="image"></a>
+                                                    <% }; %>
+                                                    <label class="mb-0"><%=timedata.start%></label>
+                                                </div>
+                                                <div class="col-sm-0 col-md-0 col-lg-4 col-xl-4 p-2">
+                                                </div>
+
+
+                                            <% } else if(timedata.check == '4'){ %>
+
+                                                <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 p-2">
+                                                    <button class="btn btn-square btn-success" type="button"><%=timedata.time%></button>
+                                                </div>
+                                                <div class="col-sm-0 col-md-0 col-lg-4 col-xl-4 p-2">
+                                                </div>
+                                                <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 p-2 text-center">
+                                                    <label class="mb-0"><%=timedata.end%></label>
+                                                </div>
+
+                                            <% } else if(timedata.check == '5'){ %>
+
+                                                <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 p-2">
+                                                    <button class="btn btn-square btn-warning" type="button"><%=timedata.time%></button>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 p-2 d-flex justify-content-center">
+                                                    <% if(timedata.img != ""){ %>
+                                                        <a href="../../<%= timedata.img %>" target="_blank"><img class="m-r-10" width="45px" height="41px" src="../../<%= timedata.img %>" alt="image"></a>
+                                                    <% }; %>
+                                                    <label class="mb-0"><%=timedata.start%></label>
+                                                </div>
+                                                <div class="col-sm-0 col-md-0 col-lg-4 col-xl-4 p-2">
+                                                </div>
+
+                                            <% }; %>
+
+
+                                            <% }) %>
+    
+                                        </div>
+                                        <% i++ %>
+                                    <% }) %>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+                </div>
+            </div>
+            <!-- Container-fluid Ends-->
+        </div>
+
+    <%- include('./partials/footer'); -%>
+    <%- include('./partials/script'); -%>
+  </body>
+</html>

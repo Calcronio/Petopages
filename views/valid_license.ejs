@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <%- include('./partials/frontend_head'); -%>
+    
+</head>
+<body onload="offdarkmode()">
+  <!-- Loader starts-->
+  <div class="loader-wrapper">
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"> </div>
+    <div class="dot"></div>
+  </div>
+  <!-- Loader ends-->
+  <!-- login page start-->
+  <div class="container-fluid p-0" style="height: 100vh;">
+    <div class="login-card" style="padding-top: 50px;">
+      <div class="login-main" style="width: 650px;"> 
+        <div class="theme-form" action="/" method="post" id="login_form">
+                    <div id="getmsg"></div>
+                  <h4 class="text-center">Validate your account</h4>
+                  <p class="text-center">Enter your  Purchase Code</p>
+                  
+                  <div class="form-group">
+                                            <label class="mb-1"><strong>Enter  Purchase Code</strong></label>
+                                            <input type="text" class="form-control" placeholder="Enter  Purchase Code"  id="inputCode" required>
+                                        </div>
+                  
+                  
+                 
+                  <button class="btn btn-primary btn-block btn-square b-r-10 w-100 mt-3" id="sub_activate">Validate My Account</button>
+
+                </div>
+      </div>
+    </div>
+  </div>
+
+  <%- include('./partials/script'); -%>
+
+
+</body>
+</html>

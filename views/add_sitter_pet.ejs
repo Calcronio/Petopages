@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <%- include('./partials/head'); -%>
+    
+</head>
+<body onload="startTime()">
+    <%- include('./partials/header_sidebar'); -%>
+    
+    <!-- tap on top starts-->
+
+        <!-- Page Sidebar Ends-->
+        <div class="page-body">
+          <div class="container-fluid">
+            <div class="page-title">
+              <div class="row">
+                <div class="col-sm-6">
+                  <h3><%=lan.Add%> <%=lan.Services%></h3>
+                </div>
+                <div class="col-sm-6">
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                    <li class="breadcrumb-item"><%=lan.Dashboard%></li>
+                    <li class="breadcrumb-item active"><%=lan.Add%> <%=lan.Services%></li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Container-fluid starts-->
+          <div class="container-fluid search-page">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+                          <form  class="needs-validation" id="sitter_adpet_form" novalidate="" action="/sitter/sitter_ad_pet" method="post" enctype="multipart/form-data">
+                              <div class="row">
+                                  <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center form-group">
+                                    <img id="file-preview" width="150" height="150" src="../images/dashboard/default/profile.png" alt="image">
+                                  </div>
+                                  <div class="row mt-3">
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                        <label class="col-form-label"><%=lan.Upload%> <%=lan.img%></label>
+                                        <input class="form-control pet_input_check" style="height: 47px;" type="file" name="image" onchange="showPreview(event)" required>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                        <label class="col-form-label"><%=lan.Name%></label>
+                                        <input class="form-control pet_input_check" type="text" name="name" placeholder="<%=lan.Enter%> <%=lan.Name%>" required>
+                                    </div>
+
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                      <label class="col-form-label"><%=lan.Pet%> <%=lan.Type%></label>
+                                      <select class="js-example-basic-single sitter_pet" name="category" required>
+                                        <option value selected disabled><%=lan.Pet%> <%=lan.Type%> <%=lan.List%></option>
+                                        <% category_data.forEach(function(category_data){ %>
+                                          <option value="<%=category_data.id%>"><%=category_data.name%></option>
+                                        <% }) %>
+                                      </select>
+                                    </div>
+
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                      <label class="col-form-label"><%=lan.Breed%> <%=lan.List%></label>
+                                      <select class="js-example-basic-single pet_input_check" name="breed" required>
+                                        <option value selected disabled><%=lan.Breed%> <%=lan.List%></option>
+                                        <% breed_data.forEach(function(breed_data){ %>
+                                        <option value="<%=breed_data.id%>"><%=breed_data.name%></option>
+                                        <% }) %>
+                                      </select>
+                                    </div>
+                                    
+                                    <div class="row col-12">
+                                      <label class="col-form-label"><%=lan.What_is_Your_Pet_Gender%>?</label>
+                                      <div class="col-sm-6 col-md-4 col-lg-2 col-xl-2 gender_class" id="pet_gender_click" data-gender="Male">
+                                        <div class="card text-center p-3 b-dark border-1" id="gender_card">
+                                          <span class="f-w-600"><%=lan.Male%></span>
+                                        </div>
+                                      </div>
+                                      <div class="col-sm-6 col-md-4 col-lg-2 col-xl-2 gender_class" id="pet_gender_click" data-gender="Female">
+                                        <div class="card text-center p-3 b-dark border-1" id="gender_card">
+                                          <span class="f-w-600"><%=lan.Female%></span>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    
+                                    <div class="row col-12">
+                                      <label class="col-form-label"><%=lan.How_Big_is_Your_Pet%>?</label>
+                                      <% pet_size.forEach(function(pet_size){ %>
+                                        <div class="col-sm-6 col-md-4 col-lg-2 col-xl-2 size_clsss" id="pet_size_click" data-size="<%= pet_size.id %>">
+                                          <div class="card text-center p-3 b-dark border-1" id="size_card">
+                                            <span class="f-w-600"><%=pet_size.name%></span>
+                                            <span class="f-w-500"><%= pet_size.min_size %> - <%= pet_size.max_size %> <%= pet_size.units %></span>
+                                          </div>
+                                        </div>
+                                        <% }) %>
+                                      </div>
+                                      
+                                      <div class="row col-12">
+                                      <label class="col-form-label"><%=lan.How_Old_is_Your_Pet%>?</label>
+                                      <% pet_year.forEach(function(pet_year){ %>
+                                        <div class="col-sm-6 col-md-4 col-lg-2 col-xl-2 year_class" id="pet_year_click" data-year="<%= pet_year.id %>">
+                                          <div class="card text-center p-3 b-dark border-1" id="year_card">
+                                            <span class="f-w-600"><%=pet_year.name%></span>
+                                            <span class="f-w-500"><%= pet_year.min_year %> - <%= pet_year.max_year %> <%= pet_year.units %></span>
+                                          </div>
+                                        </div>
+                                        <% }) %>
+                                      </div>
+                                      
+                                    <div class="row col-12">
+                                      <label class="col-form-label"><%=lan.Has_Your_pet_been_spayed_or_neutered%>?</label>
+                                      <div class="col-sm-6 col-md-4 col-lg-2 col-xl-2 netuered_class" id="netuered_click" data-nature="Yes">
+                                        <div class="card text-center p-3 b-dark border-1" id="natured_card">
+                                          <span class="f-w-600"><%=lan.Yes%></span>
+                                        </div>
+                                      </div>
+                                      <div class="col-sm-6 col-md-4 col-lg-2 col-xl-2 netuered_class" id="netuered_click" data-nature="No">
+                                        <div class="card text-center p-3 b-dark border-1" id="natured_card">
+                                          <span class="f-w-600"><%=lan.No%></span>
+                                        </div>
+                                      </div>
+                                      <div class="col-sm-6 col-md-4 col-lg-2 col-xl-2 netuered_class" id="netuered_click" data-nature="Not Sure">
+                                        <div class="card text-center p-3 b-dark border-1" id="natured_card">
+                                          <span class="f-w-600"><%=lan.Not%> <%=lan.Sure%></span>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    
+                                    <input class="pet_input_check" type="hidden" name="pet_gender" id="pet_gender">
+                                    <input class="pet_input_check" type="hidden" name="pet_size" id="pet_size">  
+                                    <input class="pet_input_check" type="hidden" name="pet_year" id="pet_year">  
+                                    <input class="pet_input_check" type="hidden" name="natured" id="netured_input">  
+                                  </div>
+                                  <div class="text-center">
+                                    <p class="text-danger d-none mt-3" id="sitter_pet_detail"><%=lan.Please_Enter_All_Detail%>.</p>
+                                </div>
+                              </div>
+                            </form>
+                            <div class="text-end mt-3">
+                              <button class="btn btn-square btn-primary btn-air-primary add_detail_btn b-r-10" id="sitter_pet_btn" type="submit"><%=lan.Submit%></button> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+          <!-- Container-fluid Ends-->
+        </div>
+
+        <%- include('./partials/footer'); -%>
+        <%- include('./partials/script'); -%>
+  </body>
+</html>

@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <%- include('./partials/head'); -%>
+    
+</head>
+<body onload="startTime()">
+    <%- include('./partials/header_sidebar'); -%>
+    
+    <!-- tap on top starts-->
+
+        <!-- Page Sidebar Ends-->
+        <div class="page-body">
+          <div class="container-fluid">
+            <div class="page-title pb-1">
+              <div class="row">
+                <div class="col-sm-6 d-flex">
+                  <span class="f-22 f-w-600"><%=lan.Welcome%> &nbsp;</span><span class="f-24 f-w-700"><%=sname[0].name%></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Container-fluid starts-->
+          <div class="container-fluid dashboard-2">
+            <div class="row">
+
+              <div class="col-12">
+                <div class="profile-greeting"> 
+                  <div class="p-0">
+                    <h5 class="px-4 py-3 "><%=lan.General%> <%=lan.Data%></h5>
+                  </div>              
+                  <div class="row pt-0">
+
+                    <div class="col-lg-3 col-md-6 box-col-4">
+                      <div class="card profit-card">
+                        <div class="card-header pb-0">
+                          <div class="d-flex justify-content-between">
+                            <div class="flex-grow-1">
+                              <p class="square-after f-w-600 header-text-primary "><%= dashboad[0].field_name %><i class="fa fa-circle"> </i></p>
+                              <h4><%= dashboad[0].tot_no %></h4>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="card-body">
+                          <div class="right-side icon-right-primary"><i class="fa fa-list-ol"></i>
+                            <div class="shap-block">
+                              <div class="rounded-shap animate-bg-primary"><i></i><i></i></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="col-lg-3 col-md-6 box-col-4">
+                      <div class="card visitor-card">
+                        <div class="card-header pb-0">
+                          <div class="d-flex justify-content-between">
+                            <div class="flex-grow-1">
+                              <p class="square-after f-w-600 header-text-info"><%= dashboad[1].field_name %><i class="fa fa-circle"> </i></p>
+                              <h4><%= dashboad[1].tot_no %></h4>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="card-body">
+                          <div class="right-side icon-right-info"><i class="fa fa-list"></i>
+                            <div class="shap-block">
+                              <div class="rounded-shap animate-bg-primary"><i></i><i></i></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+      
+                    <div class="col-lg-3 col-md-12 box-col-4">
+                      <div class="card sell-card">
+                        <div class="card-header pb-0">
+                          <div class="d-flex justify-content-between">
+                            <div class="flex-grow-1">
+                              <p class="square-after f-w-600 header-text-success"><%= dashboad[2].field_name %><i class="fa fa-circle"> </i></p>
+                              <h4><%= dashboad[2].tot_no %></h4>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="card-body">
+                          <div class="right-side icon-right-success"><i class="fa fa-gift"></i>
+                            <div class="shap-block">
+                              <div class="rounded-shap animate-bg-secondary"><i></i><i></i></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+      
+                    <div class="col-lg-3 col-md-12 box-col-4">
+                      <div class="card sell-card">
+                        <div class="card-header pb-0">
+                          <div class="d-flex justify-content-between">
+                            <div class="flex-grow-1">
+                              <p class="square-after f-w-600 header-text-warning"><%= dashboad[3].field_name %><i class="fa fa-circle"> </i></p>
+                              <h4><%= dashboad[3].tot_no %></h4>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="card-body">
+                          <div class="right-side icon-right-warning"><i class="fa fa-picture-o"></i>
+                            <div class="shap-block">
+                              <div class="rounded-shap animate-bg-warning"><i></i><i></i></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+
+
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-12">
+                <div class="profile-greeting"> 
+                  <div class="p-0">
+                    <h5 class="px-4 py-3 "><%=lan.General%> <%=lan.Data%></h5>
+                  </div>              
+                  <div class="row pt-0">
+
+                    <div class="col-lg-3 col-md-6 box-col-4">
+                      <div class="card profit-card">
+                        <div class="card-header pb-0">
+                          <div class="d-flex justify-content-between">
+                            <div class="flex-grow-1">
+                              <p class="square-after f-w-600 header-text-primary "><%= dashboad1[0].field_name %><i class="fa fa-circle"> </i></p>
+                              <h4><%= dashboad1[0].tot_no %></h4>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="card-body">
+                          <div class="right-side icon-right-primary"><i class="fa fa-th-large"></i>
+                            <div class="shap-block">
+                              <div class="rounded-shap animate-bg-primary"><i></i><i></i></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="col-lg-3 col-md-6 box-col-4">
+                      <div class="card visitor-card">
+                        <div class="card-header pb-0">
+                          <div class="d-flex justify-content-between">
+                            <div class="flex-grow-1">
+                              <p class="square-after f-w-600 header-text-info"><%= dashboad1[1].field_name %><i class="fa fa-circle"> </i></p>
+                              <h4><%= dashboad1[1].tot_no %></h4>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="card-body">
+                          <div class="right-side icon-right-info"><i class="fa fa-pencil-square-o"></i>
+                            <div class="shap-block">
+                              <div class="rounded-shap animate-bg-primary"><i></i><i></i></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+      
+                    <div class="col-lg-3 col-md-12 box-col-4">
+                      <div class="card sell-card">
+                        <div class="card-header pb-0">
+                          <div class="d-flex justify-content-between">
+                            <div class="flex-grow-1">
+                              <p class="square-after f-w-600 header-text-success"><%= dashboad1[2].field_name %><i class="fa fa-circle"> </i></p>
+                              <h4><%= dashboad1[2].tot_no %></h4>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="card-body">
+                          <div class="right-side icon-right-success"><i class="fa fa-th-list"></i>
+                            <div class="shap-block">
+                              <div class="rounded-shap animate-bg-secondary"><i></i><i></i></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+      
+                    <div class="col-lg-3 col-md-12 box-col-4">
+                      <div class="card sell-card">
+                        <div class="card-header pb-0">
+                          <div class="d-flex justify-content-between">
+                            <div class="flex-grow-1">
+                              <p class="square-after f-w-600 header-text-warning"><%= dashboad1[3].field_name %><i class="fa fa-circle"> </i></p>
+                              <h4><%= dashboad1[3].tot_no %></h4>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="card-body">
+                          <div class="right-side icon-right-warning"><i class="fa fa-calendar"></i>
+                            <div class="shap-block">
+                              <div class="rounded-shap animate-bg-warning"><i></i><i></i></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+
+
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="col-12">
+                <div class="profile-greeting"> 
+                  <div class="p-0">
+                    <h5 class="px-4 py-3 "><%=lan.Book%> <%=lan.Services%> <%=lan.Status%></h5>
+                  </div>              
+                  <div class="row pt-0">
+
+                    <div class="col-lg-3 col-md-6 box-col-4">
+                      <div class="card profit-card">
+                        <div class="card-header pb-0">
+                          <div class="d-flex justify-content-between">
+                            <div class="flex-grow-1">
+                              <p class="square-after f-w-600 header-text-primary "><%= dashboad2[0].field_name %><i class="fa fa-circle"> </i></p>
+                              <h4><%= dashboad2[0].tot_no %></h4>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="card-body">
+                          <div class="right-side icon-right-primary"><i class="fa fa-paw"></i>
+                            <div class="shap-block">
+                              <div class="rounded-shap animate-bg-primary"><i></i><i></i></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="col-lg-3 col-md-6 box-col-4">
+                      <div class="card visitor-card">
+                        <div class="card-header pb-0">
+                          <div class="d-flex justify-content-between">
+                            <div class="flex-grow-1">
+                              <p class="square-after f-w-600 header-text-info"><%= dashboad2[1].field_name %><i class="fa fa-circle"> </i></p>
+                              <h4><%= dashboad2[1].tot_no %></h4>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="card-body">
+                          <div class="right-side icon-right-info"><i class="fa fa-hourglass-start"></i>
+                            <div class="shap-block">
+                              <div class="rounded-shap animate-bg-primary"><i></i><i></i></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+      
+                    <div class="col-lg-3 col-md-12 box-col-4">
+                      <div class="card sell-card">
+                        <div class="card-header pb-0">
+                          <div class="d-flex justify-content-between">
+                            <div class="flex-grow-1">
+                              <p class="square-after f-w-600 header-text-success"><%= dashboad2[2].field_name %><i class="fa fa-circle"> </i></p>
+                              <h4><%= dashboad2[2].tot_no %></h4>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="card-body">
+                          <div class="right-side icon-right-success"><i class="fa fa-history"></i>
+                            <div class="shap-block">
+                              <div class="rounded-shap animate-bg-secondary"><i></i><i></i></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+      
+                    <div class="col-lg-3 col-md-12 box-col-4">
+                      <div class="card sell-card">
+                        <div class="card-header pb-0">
+                          <div class="d-flex justify-content-between">
+                            <div class="flex-grow-1">
+                              <p class="square-after f-w-600 header-text-warning"><%= dashboad2[3].field_name %><i class="fa fa-circle"> </i></p>
+                              <h4><%= dashboad2[3].tot_no %></h4>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="card-body">
+                          <div class="right-side icon-right-warning"><i class="fa fa-times-circle-o"></i>
+                            <div class="shap-block">
+                              <div class="rounded-shap animate-bg-warning"><i></i><i></i></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+
+
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="col-12">
+                <div class="profile-greeting"> 
+                  <div class="p-0">
+                    <h5 class="px-4 py-3 "><%=lan.Book%> <%=lan.Services%> <%=lan.Status%></h5>
+                  </div>              
+                  <div class="row pt-0">
+
+                    <div class="col-lg-3 col-md-6 box-col-4">
+                      <div class="card profit-card">
+                        <div class="card-header pb-0">
+                          <div class="d-flex justify-content-between">
+                            <div class="flex-grow-1">
+                              <p class="square-after f-w-600 header-text-primary "><%= dashboad3[0].field_name %><i class="fa fa-circle"> </i></p>
+                              <h4><%= dashboad3[0].tot_no %></h4>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="card-body">
+                          <div class="right-side icon-right-primary"><i class="fa fa-list-alt"></i>
+                            <div class="shap-block">
+                              <div class="rounded-shap animate-bg-primary"><i></i><i></i></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="col-lg-3 col-md-6 box-col-4">
+                      <div class="card visitor-card">
+                        <div class="card-header pb-0">
+                          <div class="d-flex justify-content-between">
+                            <div class="flex-grow-1">
+                              <p class="square-after f-w-600 header-text-info"><%= dashboad3[1].field_name %><i class="fa fa-circle"> </i></p>
+                              <h4><%= dashboad3[1].tot_no %></h4>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="card-body">
+                          <div class="right-side icon-right-info"><i class="fa fa-step-backward"></i>
+                            <div class="shap-block">
+                              <div class="rounded-shap animate-bg-primary"><i></i><i></i></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+      
+                    <div class="col-lg-3 col-md-12 box-col-4">
+                      <div class="card sell-card">
+                        <div class="card-header pb-0">
+                          <div class="d-flex justify-content-between">
+                            <div class="flex-grow-1">
+                              <p class="square-after f-w-600 header-text-success"><%= dashboad3[2].field_name %><i class="fa fa-circle"> </i></p>
+                              <h4><%= dashboad3[2].tot_no %></h4>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="card-body">
+                          <div class="right-side icon-right-success"><i class="fa fa-step-forward"></i>
+                            <div class="shap-block">
+                              <div class="rounded-shap animate-bg-secondary"><i></i><i></i></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+      
+                    <div class="col-lg-3 col-md-12 box-col-4">
+                      <div class="card sell-card">
+                        <div class="card-header pb-0">
+                          <div class="d-flex justify-content-between">
+                            <div class="flex-grow-1">
+                              <p class="square-after f-w-600 header-text-warning"><%= dashboad3[3].field_name %><i class="fa fa-circle"> </i></p>
+                              <h4><%= dashboad3[3].tot_no %></h4>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="card-body">
+                          <div class="right-side icon-right-warning"><i class="fa fa-star-half-o"></i>
+                            <div class="shap-block">
+                              <div class="rounded-shap animate-bg-warning"><i></i><i></i></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+
+
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="col-12">
+                <div class="profile-greeting"> 
+                  <div class="p-0">
+                    <h5 class="px-4 py-3 "><%=lan.Wallet%> <%=lan.Data%></h5>
+                  </div>              
+                  <div class="row pt-0">
+
+
+
+                    <div class="col-lg-3 col-md-6 box-col-4">
+                      <div class="card profit-card">
+                        <div class="card-header pb-0">
+                          <div class="d-flex justify-content-between">
+                            <div class="flex-grow-1">
+                              <p class="square-after f-w-600 header-text-primary "><%= dashboad4[0].field_name %><i class="fa fa-circle"> </i></p>
+                              <h4 class="invosymbol"><%= dashboad4[0].tot_no %></h4>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="card-body">
+                          <div class="right-side icon-right-primary"><i class="fa fa-money"></i>
+                            <div class="shap-block">
+                              <div class="rounded-shap animate-bg-primary"><i></i><i></i></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="col-lg-3 col-md-6 box-col-4">
+                      <div class="card visitor-card">
+                        <div class="card-header pb-0">
+                          <div class="d-flex justify-content-between">
+                            <div class="flex-grow-1">
+                              <p class="square-after f-w-600 header-text-info"><%= dashboad4[1].field_name %><i class="fa fa-circle"> </i></p>
+                              <h4 class="invosymbol"><%= dashboad4[1].tot_no %></h4>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="card-body">
+                          <div class="right-side icon-right-info"><i class="fa fa-usd"></i>
+                            <div class="shap-block">
+                              <div class="rounded-shap animate-bg-primary"><i></i><i></i></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+      
+                    <div class="col-lg-3 col-md-12 box-col-4">
+                      <div class="card sell-card">
+                        <div class="card-header pb-0">
+                          <div class="d-flex justify-content-between">
+                            <div class="flex-grow-1">
+                              <p class="square-after f-w-600 header-text-success"><%= dashboad4[2].field_name %><i class="fa fa-circle"> </i></p>
+                              <h4><%= dashboad4[2].tot_no %></h4>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="card-body">
+                          <div class="right-side icon-right-success"><i class="fa fa-credit-card-alt"></i>
+                            <div class="shap-block">
+                              <div class="rounded-shap animate-bg-secondary"><i></i><i></i></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+      
+                    <div class="col-lg-3 col-md-12 box-col-4">
+                      <div class="card sell-card">
+                        <div class="card-header pb-0">
+                          <div class="d-flex justify-content-between">
+                            <div class="flex-grow-1">
+                              <p class="square-after f-w-600 header-text-warning"><%= dashboad4[3].field_name %><i class="fa fa-circle"> </i></p>
+                              <h4><%= dashboad4[3].tot_no %></h4>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="card-body">
+                          <div class="right-side icon-right-warning"><i class="fa fa-credit-card"></i>
+                            <div class="shap-block">
+                              <div class="rounded-shap animate-bg-warning"><i></i><i></i></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+
+
+                  </div>
+                </div>
+              </div>
+
+
+            </div>
+          </div>
+          <!-- Container-fluid Ends-->
+        </div>
+
+        <%- include('./partials/footer'); -%>
+        <%- include('./partials/script'); -%>
+  </body>
+</html>

@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <%- include('./partials/head'); -%>
+    
+</head>
+<body onload="startTime()">
+    <%- include('./partials/header_sidebar'); -%>
+    
+    <!-- tap on top starts-->
+    <!-- https://milkyway.cscodetech.cloud/add_store.php#! -->
+        <!-- Page Sidebar Ends-->
+        <div class="page-body">
+          <div class="container-fluid">
+            <div class="page-title">
+              <div class="row">
+                <div class="col-sm-6">
+                  <h3><%=lan.Add%> <%=lan.Role%> <%=lan.Permission%></h3>
+                </div>
+                <div class="col-sm-6">
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                    <li class="breadcrumb-item"><%=lan.Dashboard%></li>
+                    <li class="breadcrumb-item active"><%=lan.Add%> <%=lan.Role%> <%=lan.Permission%></li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Container-fluid starts-->
+          <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <form class="needs-validation" id="role_form" novalidate="" action="/role/add_role" method="post">
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                        <label class="col-form-label"><%=lan.Name%></label>
+                                        <input class="form-control checkin" type="text" name="name" placeholder="<%=lan.Enter%> <%=lan.Name%>" required>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                        <label class="col-form-label"><%=lan.Email%></label>
+                                        <input class="form-control checkin" type="text" name="email" placeholder="<%=lan.Enter%> <%=lan.Email%>" required>
+                                    </div>
+
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                        <label class="col-form-label"><%=lan.Phone%> <%=lan.Number%>.</label>
+                                        <div class="row">
+                                            <div class="col-4">
+                                                <select class="js-example-basic-single checkin" id="role_countrycode" name="country_code" required>
+                                                    <option value selected disabled><%=lan.Country%></option>
+                                                    <% CountryCode.forEach((data, x) => { %>
+                                                        <option value="<%= data %>"> <%= nameCode[x] %> <%= data %> </option>
+                                                    <% }) %>
+                                                </select>
+                                            </div>
+                                            <div class="col-8">
+                                                <input class="form-control checkin" id="role_phone" type="number" name="phone" placeholder="<%=lan.Enter%> <%=lan.Phone%> <%=lan.Number%>." required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                        <label class="col-form-label"><%=lan.Active%> <%=lan.Status%></label>
+                                        <select class="js-example-basic-single checkin" name="status" required>
+                                            <option value selected disabled><%=lan.Status%> <%=lan.List%></option>
+                                            <option value="1"><%=lan.Active%></option>
+                                            <option value="0"><%=lan.Inactive%></option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                        <label class="col-form-label"><%=lan.Password%></label>
+                                        <input class="form-control checkin" type="password" name="password"  required>
+                                    </div>
+
+                                    <div>
+                                        <div class="p-3 mt-3" style="background-color: rgb(235, 232, 232);">
+                                            <h6 class="m-0"><%=lan.Accessibility%></h6>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mt-4">
+                                        <div class="table-responsive theme-scrollbar">
+                                            <table class="table">
+                                                <thead class="table-dark">
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th><%=lan.Permission%></th>
+                                                        <th><%=lan.View%></th>
+                                                        <th><%=lan.Add%></th>
+                                                        <th><%=lan.Edit%></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>1</td>
+                                                        <td><%=lan.Book%> <%=lan.Services%></td>
+                                                        <td><input class="checkinc" name="bookadd" type="checkbox"></td>
+                                                        <td></td>
+                                                        <td><input class="checkinc" name="bookedit" type="checkbox"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>2</td>
+                                                        <td><%=lan.Customer%></td>
+                                                        <td><input class="checkinc" name="cusview" type="checkbox"></td>
+                                                        <td><input class="checkinc" name="cusadd" type="checkbox"></td>
+                                                        <td><input class="checkinc" name="cusedit" type="checkbox"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>3</td>
+                                                        <td><%=lan.Category%></td>
+                                                        <td><input class="checkinc" name="catview" type="checkbox"></td>
+                                                        <td><input class="checkinc" name="catadd" type="checkbox"></td>
+                                                        <td><input class="checkinc" name="catedit" type="checkbox"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>4</td>
+                                                        <td><%=lan.Services%></td>
+                                                        <td><input class="checkinc" name="serviview" type="checkbox"></td>
+                                                        <td><input class="checkinc" name="serviadd" type="checkbox"></td>
+                                                        <td><input class="checkinc" name="serviedit" type="checkbox"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>5</td>
+                                                        <td><%=lan.FAQ%></td>
+                                                        <td><input class="checkinc" name="faqview" type="checkbox"></td>
+                                                        <td><input class="checkinc" name="faqadd" type="checkbox"></td>
+                                                        <td><input class="checkinc" name="faqedit" type="checkbox"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>6</td>
+                                                        <td><%=lan.Become_A_Sitter%></td>
+                                                        <td><input class="checkinc" name="sitview" type="checkbox"></td>
+                                                        <td><input class="checkinc" name="sitadd" type="checkbox"></td>
+                                                        <td><input class="checkinc" name="sitedit" type="checkbox"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>7</td>
+                                                        <td><%=lan.Pet%> <%=lan.Breed%></td>
+                                                        <td><input class="checkinc" name="breeview" type="checkbox"></td>
+                                                        <td><input class="checkinc" name="breeadd" type="checkbox"></td>
+                                                        <td><input class="checkinc" name="breeedit" type="checkbox"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>8</td>
+                                                        <td><%=lan.Pet%> <%=lan.Size%></td>
+                                                        <td><input class="checkinc" name="sizeview" type="checkbox"></td>
+                                                        <td><input class="checkinc" name="sizeadd" type="checkbox"></td>
+                                                        <td><input class="checkinc" name="sizeedit" type="checkbox"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>9</td>
+                                                        <td><%=lan.Pet%> <%=lan.Age%></td>
+                                                        <td><input class="checkinc" name="yearview" type="checkbox"></td>
+                                                        <td><input class="checkinc" name="yearadd" type="checkbox"></td>
+                                                        <td><input class="checkinc" name="yearedit" type="checkbox"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>10</td>
+                                                        <td><%=lan.Report%></td>
+                                                        <td><input class="checkinc" name="repoview" type="checkbox"></td>
+                                                        <td></td>
+                                                        <td><input class="checkinc" name="repoedit" type="checkbox"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>11</td>
+                                                        <td><%=lan.Payout%> <%=lan.List%></td>
+                                                        <td><input class="checkinc" name="payoutview" type="checkbox"></td>
+                                                        <td></td>
+                                                        <td><input class="checkinc" name="payoutedit" type="checkbox"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>12</td>
+                                                        <td><%=lan.Pages%></td>
+                                                        <td><input class="checkinc" name="pageview" type="checkbox"></td>
+                                                        <td></td>
+                                                        <td><input class="checkinc" name="pageedit" type="checkbox"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>13</td>
+                                                        <td><%=lan.Payment%> <%=lan.List%></td>
+                                                        <td><input class="checkinc" name="paymview" type="checkbox"></td>
+                                                        <td></td>
+                                                        <td><input class="checkinc" name="paymedit" type="checkbox"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>14</td>
+                                                        <td><%=lan.Status%> <%=lan.List%></td>
+                                                        <td><input class="checkinc" name="statview" type="checkbox"></td>
+                                                        <td></td>
+                                                        <td><input class="checkinc" name="statedit" type="checkbox"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>15</td>
+                                                        <td><%=lan.Banner%> <%=lan.List%></td>
+                                                        <td><input class="checkinc" name="bannview" type="checkbox"></td>
+                                                        <td><input class="checkinc" name="bannadd" type="checkbox"></td>
+                                                        <td><input class="checkinc" name="bannedit" type="checkbox"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>16</td>
+                                                        <td><%=lan.Zone%></td>
+                                                        <td><input class="checkinc" name="zoneview" type="checkbox"></td>
+                                                        <td><input class="checkinc" name="zoneadd" type="checkbox"></td>
+                                                        <td><input class="checkinc" name="zoneedit" type="checkbox"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>17</td>
+                                                        <td><%=lan.Time%> <%=lan.Management%></td>
+                                                        <td><input class="checkinc" name="managview" type="checkbox"></td>
+                                                        <td></td>
+                                                        <td><input class="checkinc" name="managedit" type="checkbox"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>18</td>
+                                                        <td><%=lan.Send%> <%=lan.Notification%></td>
+                                                        <td><input class="checkinc" name="snotiview" type="checkbox"></td>
+                                                        <td><input class="checkinc" name="snotiadd" type="checkbox"></td>
+                                                        <td><input class="checkinc" name="snotiedit" type="checkbox"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>19</td>
+                                                        <td><%=lan.Folder%> <%=lan.Management%></td>
+                                                        <td><input class="checkinc" name="foldview" type="checkbox"></td>
+                                                        <td></td>
+                                                        <td><input class="checkinc" name="foldedit" type="checkbox"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>20</td>
+                                                        <td><%=lan.Setting%></td>
+                                                        <td><input class="checkinc" name="settview" type="checkbox"></td>
+                                                        <td></td>
+                                                        <td><input class="checkinc" name="settedit" type="checkbox"></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                    <div class="text-center">
+                                        <p class="text-danger d-none mt-3" id="role_all_check"><%=lan.Please_Enter_All_Detail%>.</p>
+                                        <p class="text-danger d-none mt-3" id="role_phone_check"><%=lan.This_Phone_No_Already_Registered%>.</p>
+                                    </div>
+                                    
+                                </div>
+                            </form>
+                            <div class="text-end mt-5">
+                                <button class="btn btn-square btn-primary btn-air-primary add_detail_btn b-r-10" id="role_fbtn" type="submit"><%=lan.Submit%></button> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+          <!-- Container-fluid Ends-->
+        </div>
+
+        <%- include('./partials/footer'); -%>
+        <%- include('./partials/script'); -%>
+  </body>
+</html>

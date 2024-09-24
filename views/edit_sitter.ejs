@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <%- include('./partials/head'); -%>
+    
+</head>
+<body onload="startTime()">
+    <%- include('./partials/header_sidebar'); -%>
+    
+    <!-- tap on top starts-->
+    <!-- https://milkyway.cscodetech.cloud/add_store.php#! -->
+        <!-- Page Sidebar Ends-->
+        <div class="page-body">
+          <div class="container-fluid">
+            <div class="page-title">
+              <div class="row">
+                <div class="col-sm-6">
+                  <h3><%=lan.Edit%> <%=lan.Sitter%></h3>
+                </div>
+                <div class="col-sm-6">
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                    <li class="breadcrumb-item"><%=lan.Dashboard%></li>
+                    <li class="breadcrumb-item active"><%=lan.Edit%> <%=lan.Sitter%></li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Container-fluid starts-->
+          <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <form class="needs-validation" id="shitter_edit_form_click" novalidate="" action="/sitter_data/edit/<%=sitter_data[0].id%>" method="post" enctype="multipart/form-data">
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                        <div class="col-12 form-group text-center">
+                                            <% if(sitter_data[0].logo == null){ %>
+                                                <img width="150" height="150" src="../images/dashboard/default/profile.png" alt="image">
+                                            <% } else { %>
+                                                <img width="150" height="150" src="../../<%= sitter_data[0].logo %>" alt="image">
+                                            <% }; %>
+                                        </div>
+                                        <div class="col-12 form-group ">
+                                            <label class="col-form-label"><%=lan.LOGO%></label>
+                                            <input class="form-control" style="height: 47px;" type="file" name="logo" required>
+                                            <input id="old_logo" name="old_logo" value="<%=sitter_data[0].logo%>"  hidden>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                        <div class="col-12 form-group text-center">
+                                            <% if(sitter_data[0].logo == null){ %>
+                                                <img width="150" height="150" src="../images/dashboard/default/profile.png" alt="image">
+                                            <% } else { %>
+                                                <img width="150" height="150" src="../../<%= sitter_data[0].cover_logo %>" alt="image">
+                                            <% }; %>
+                                        </div>
+                                        <div class="col-12 form-group ">
+                                            <label class="col-form-label"><%=lan.Cover%> <%=lan.LOGO%></label>
+                                            <input class="form-control" style="height: 47px;" type="file" name="cover_logo" required>
+                                            <input id="old_clogo" name="old_clogo" value="<%=sitter_data[0].cover_logo%>"  hidden>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 form-group">
+                                        <label class="col-form-label"><%=lan.Name%></label>
+                                        <input class="form-control shitter_input" id="customet_name" type="text" name="name" value="<%=sitter_data[0].name%>" placeholder="<%=lan.Enter%> <%=lan.Name%>" required>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 form-group">
+                                        <label class="col-form-label"><%=lan.Active%> <%=lan.Status%></label>
+                                        <select class="js-example-basic-single shitter_input" name="status" required>
+                                            <option value selected disabled><%=lan.Status%> <%=lan.List%></option>
+                                            <option value="1" <%= sitter_data[0].status == 1 ? 'selected' : "" %>><%=lan.Active%></option>
+                                            <option value="0" <%= sitter_data[0].status == 0 ? 'selected' : "" %>><%=lan.Inactive%></option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 form-group">
+                                        <label class="col-form-label"><%=lan.Verified%> <%=lan.Status%></label>
+                                        <select class="js-example-basic-single shitter_input" name="v_status" required>
+                                            <option value selected disabled><%=lan.Verified%> <%=lan.Status%> <%=lan.List%></option>
+                                            <option value="1" <%= sitter_data[0].verified_status == 1 ? 'selected' : "" %>><%=lan.Verified%></option>
+                                            <option value="0" <%= sitter_data[0].verified_status == 0 ? 'selected' : "" %>><%=lan.Not%> <%=lan.Verified%></option>
+                                        </select>
+                                    </div>
+                                    
+
+
+                                    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 form-group">
+                                        <label class="col-form-label"><%=lan.Email%></label>
+                                        <input class="form-control shitter_input" id="shitter_edit_email" type="email" name="email" value="<%=sitter_data[0].email%>" placeholder="<%=lan.Enter%> <%=lan.Email%>" required>
+                                        <input class="" id="old_email" name="old_email" value="<%=sitter_data[0].email%>"  hidden>
+                                    </div>
+
+
+                                    <div class="col-sm-12 col-md-6 col-lg-8 col-xl-8 form-group">
+                                        <label class="col-form-label"><%=lan.Title%></label>
+                                        <input class="form-control shitter_input" type="text" name="title" placeholder="<%=lan.Enter%> <%=lan.Title%>" value="<%=sitter_data[0].title%>" required>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6 col-lg-12 col-xl-12 mt-3 form-group">
+                                        <label class="col-form-label"><%=lan.Subtitle%></label>
+                                        <input class="form-control shitter_input" type="text" name="subtitle" placeholder="<%=lan.Enter%> <%=lan.Subtitle%>" value="<%=sitter_data[0].subtitle%>" required>
+                                    </div>
+                                    <div class="col-sm-12 form-group">
+                                        <label class="col-form-label"><%=lan.Tag%></label>
+                                        <select class="custome_select_create form-control shitter_input" multiple="multiple" name="tag" required>
+                                            <% data_tag.forEach(function(tag){ %>
+                                            <option value="<%=tag.id%>&!<%=tag.name%>" selected><%=tag.name%></option>
+                                            <% }); %>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-12 form-group">
+                                        <div>
+                                            <label class="col-form-label"><%=lan.Short%> <%=lan.Description%></label>
+                                        </div>
+                                        <div>
+                                            <textarea class="form-control shitter_input" name="description" style="width: 100%; height: 150px;"  required><%=sitter_data[0].description%></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 form-group">
+                                        <div>
+                                            <label class="col-form-label"><%=lan.Cancel%> <%=lan.Policy%></label>
+                                        </div>
+                                        <div>
+                                            <textarea class="form-control shitter_input" name="cancel_policy" style="width: 100%; height: 90px;"  required><%=sitter_data[0].cancel_policy%></textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 border-bottom border-bottom-dark mt-5 mb-3">
+                                        <h5><%=lan.Login%> <%=lan.Information%></h5>
+                                    </div>
+
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                        <label class="col-form-label"><%=lan.Phone%> <%=lan.Number%>.</label>
+                                        <div class="row">
+                                            <div class="col-4">
+                                                <select class="js-example-basic-single shitter_input" id="shitter_country_code" name="country_code" required>
+                                                    <option value selected disabled><%=lan.Country%></option>
+                                                    <% CountryCode.forEach((data, x) => { %>
+                                                        <option value="<%= data %>" <%= sitter_data[0].country_code == data ? 'selected' : "" %>> <%= nameCode[x] %> <%= data %> </option>
+                                                    <% }) %>
+                                                </select>
+                                            </div>
+                                            <div class="col-8">
+                                                <input class="form-control shitter_input" id="shitter_phone" type="number" name="phone" value="<%=sitter_data[0].phone%>" placeholder="<%=lan.Enter%> <%=lan.Phone%> <%=lan.Number%>." required>
+                                                <input id="old_phone" name="old_phone" value="<%=sitter_data[0].phone%>"  hidden>
+                                                <input id="old_ccode" name="old_ccode" value="<%=sitter_data[0].country_code%>"  hidden>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                        <label class="col-form-label"><%=lan.Password%></label>
+                                        <input class="form-control" type="password" name="password"  required>
+                                    </div>
+
+                                    <div class="col-12 border-bottom border-bottom-dark mt-5 mb-3">
+                                        <h5><%=lan.Address%> <%=lan.Information%></h5>
+                                    </div>
+
+                                    <div class="row">
+
+                                        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                            <div class="col-12 form-group">
+                                                <label class="col-form-label"><%=lan.Full%> <%=lan.Address%></label>
+                                                <input class="form-control shitter_input" type="text" name="address" value="<%=sitter_data[0].address%>" placeholder="<%=lan.Enter%> <%=lan.Full%> <%=lan.Address%>" required>
+                                            </div>
+                                            <div class="col-12 form-group">
+                                                <label class="col-form-label"><%=lan.Pincode%></label>
+                                                <input class="form-control shitter_input" type="number" name="pincode" value="<%=sitter_data[0].pincode%>" placeholder="<%=lan.Enter%> <%=lan.Pincode%>" required>
+                                            </div>
+                                            <div class="col-12 form-group">
+                                                <label class="col-form-label"><%=lan.Landmark%></label>
+                                                <input class="form-control shitter_input" type="text" name="landmark" value="<%=sitter_data[0].landmark%>" placeholder="<%=lan.Enter%> <%=lan.Landmark%>" required>
+                                            </div>
+                                            <div class="col-12 form-group">
+                                                <label class="col-form-label"><%=lan.Select%> <%=lan.Zone%></label>
+                                                <select class="js-example-basic-single shitter_input" name="zone" required>
+                                                    <option value selected disabled><%=lan.Zone%> <%=lan.List%></option>
+                                                    <% zone_data.forEach(function(zone_data){ %>
+                                                    <option value="<%=zone_data.id%>" <%= sitter_data[0].zone == zone_data.id ? 'selected' : '' %>><%=zone_data.name%></option>
+                                                    <% }); %>
+                                                </select>
+                                            </div>
+                                            <div class="col-12 form-group">
+                                                <label class="col-form-label"><%=lan.Latitude%></label>
+                                                <input class="form-control shitter_input" id="sitter_edit_latitude" type="text" value="<%=sitter_data[0].latitude%>" name="latitude"  required>
+                                            </div>
+                                            <div class="col-12 form-group">
+                                                <label class="col-form-label"><%=lan.Longitude%></label>
+                                                <input class="form-control shitter_input" id="sitter_edit_longitude" type="text" value="<%=sitter_data[0].longitude%>" name="longitude"  required>
+                                            </div>
+                                            <input type="text" id="lod_latitude" value="<%=sitter_data[0].latitude%>" hidden>
+                                            <input type="text" id="lod_longitude" value="<%=sitter_data[0].longitude%>" hidden>
+                                        </div>
+                                        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 mt-4">
+                                            <div id="address-map" style="height: 60vh; width: 100%;"></div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-12 border-bottom border-bottom-dark mt-3 mb-3">
+                                        <h5><%=lan.Commission%></h5>
+                                    </div>
+
+                                    <div class="col-12 form-group">
+                                        <label class="col-form-label"><%=lan.Commission%> <%=lan.Rate%> %</label>
+                                        <input class="form-control shitter_input" type="number" name="commisiion" value="<%=sitter_data[0].commisiion%>" placeholder="<%=lan.Enter%> <%=lan.Commission%> <%=lan.Rate%> %" required>
+                                    </div>
+
+
+
+                                    <div class="col-12 border-bottom d-flex justify-content-between pt-3 mt-1 mb-3">
+                                        <h5><%=lan.Services%> <%=lan.Information%></h5>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4">
+                                            <label class="col-form-label"><%=lan.Services%> <%=lan.List%></label>
+                                            <select class="js-example-basic-single" id="sitter_services_list" name="status" required>
+                                                <option value selected disabled><%=lan.Services%> <%=lan.List%></option>
+                                                <% let check_service = 0; %>
+                                                <% services_data.forEach(function(service_data){ %>
+
+                                                    <% sitter_service_id.forEach(function(checkid){ %>
+                                                        <% if(service_data.id == checkid.service_id){ %>
+                                                            <% check_service = 1; %>
+                                                        <% }; %>    
+                                                    <% }) %>
+
+                                                    <% if(check_service == "0"){ %>
+                                                    <option value="<%=service_data.id%>"><%=service_data.name%></option>
+                                                    <% }; %>   
+                                                    <% check_service = 0; %>
+                                                <% }) %>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="" id="add_services">
+                                        <% let check_one = 0; %>
+                                        <% for (let i = 0; i < sitter_service_id.length; i++){ %>
+
+                                            <div class="mt-5" id="row_sitter_services">
+                                                <div class="col-12 text-end">
+                                                    <button class="btn btn-square btn-primary b-r-6" id="sitter_add_services" type="button" ><%=lan.Add%></button>
+                                                </div>
+                                                <div class="" id="first_sitter">
+                                                    <% for (let a = 0; a < services.length; a++){ %>
+                                                    <% if (sitter_service_id[i].service_id == services[a].service_id){ %>
+                                                        <% if (check_one == 0){ %>
+                                                            <% check_one = 1; %>
+                                                        <div class="row col-12" id="add_sitter_service">
+                                                            <div class="col-sm-12 col-md-3 col-lg-3 col-xl-3">
+                                                                <label class="col-form-label"><%=lan.Services%> <%=lan.Name%></label>
+                                                                <input class="form-control" type="text" value="<%=services[a].service_name%>"  readonly>
+                                                                <input class="add_services_id" type="number" name="service_id" value="<%=services[a].service_id%>" hidden>
+                                                                <input class="add_services_id" type="number" name="services_data_id" value="<%=services[a].id%>" hidden>
+                                                            </div>
+                                                            <div class="col-sm-12 col-md-3 col-lg-3 col-xl-3">
+                                                                <label class="col-form-label"><%=lan.Service%> <%=lan.Type%></label>
+                                                                <input class="form-control shitter_input" type="text" name="service_type" value="<%=services[a].service_type%>" placeholder="<%=lan.Enter%> <%=lan.Service%> <%=lan.Type%>">
+                                                            </div>
+                                                            <div class="col-sm-12 col-md-2 col-lg-2 col-xl-2">
+                                                                <label class="col-form-label"><%=lan.Price%></label>
+                                                                <input class="form-control shitter_input" type="number" name="price" value="<%=services[a].price%>" placeholder="<%=lan.Enter%> <%=lan.Price%>">
+                                                            </div>
+                                                            <div class="col-sm-12 col-md-3 col-lg-3 col-xl-3">
+                                                                <label class="col-form-label"><%=lan.Price%> <%=lan.Type%></label>
+                                                                <input class="form-control shitter_input" type="text" name="price_type" value="<%=services[a].price_type%>" placeholder="<%=lan.Enter%> <%=lan.Type%>">
+                                                            </div>
+                                                            <div class="col-sm-0 col-md-1 col-lg-1 col-xl-1" style="padding-top: 40px;">
+                                                                <a type="button" class="mx-4 text-danger delete_all_sitter"><i class="fa fa-trash-o f-24"></i></a>
+                                                            </div>
+                                                        </div>
+
+                                                        <% } else { %>
+
+                                                            <div class="row col-12" id="add_sitter_service">
+                                                                <div class="col-sm-0 col-md-3 col-lg-3 col-xl-3">
+                                                                    <input class="" type="number" name="service_id" value="<%=services[a].service_id%>" hidden>
+                                                                    <input class="add_services_id" type="number" name="services_data_id" value="<%=services[a].id%>" hidden>
+                                                                </div>
+                                                                <div class="col-sm-12 col-md-3 col-lg-3 col-xl-3">
+                                                                    <label class="col-form-label"><%=lan.Service%> <%=lan.Type%></label>
+                                                                    <input class="form-control shitter_input" type="text" name="service_type" value="<%=services[a].service_type%>" placeholder="<%=lan.Enter%> <%=lan.Service%> <%=lan.Type%>">
+                                                                </div>
+                                                                <div class="col-sm-12 col-md-2 col-lg-2 col-xl-2">
+                                                                    <label class="col-form-label"><%=lan.Price%></label>
+                                                                    <input class="form-control shitter_input" type="number" name="price" value="<%=services[a].price%>" placeholder="<%=lan.Enter%> <%=lan.Price%>">
+                                                                </div>
+                                                                <div class="col-sm-12 col-md-3 col-lg-3 col-xl-3">
+                                                                    <label class="col-form-label"><%=lan.Price%> <%=lan.Type%></label>
+                                                                    <input class="form-control shitter_input" type="text" name="price_type" value="<%=services[a].price_type%>" placeholder="<%=lan.Enter%> <%=lan.Type%>">
+                                                                </div>
+                                                                <div class="col-sm-12 col-md-1 col-lg-1 col-xl-1" style="padding-top: 40px;">
+                                                                    <a type="button" class="mx-4 text-danger delete_sitter_service"><i class="fa fa-trash-o f-24"></i></a>
+                                                                </div>
+                                                            </div>
+
+                                                        <% }; %>
+                                                        <% }; %>
+
+                                                    <% }; %>
+
+                                                </div>
+                                            </div>
+                                            <% check_one = 0; %>
+                                        <% }; %>
+
+                                    </div>
+                                    <input type="hidden" name="services_id" value="<%=serices_id%>">
+
+                                    <div class="text-center">
+                                        <p class="text-danger d-none mt-3" id="shitter_detail_error"><%=lan.Please_Enter_All_Detail%>.</p>
+                                        <p class="text-danger d-none mt-3" id="shitter_services_error"><%=lan.Select_Services%>.</p>
+                                        <p class="text-danger d-none mt-3" id="shitter_email_error"><%=lan.This_Email_Id_Already_Registered%>.</p>
+                                        <p class="text-danger d-none mt-3" id="shitter_phoneno_error"><%=lan.This_Phone_No_Already_Registered%>.</p>
+                                    </div>
+                                    
+                                </div>
+                            </form>
+                            <div class="text-end mt-5">
+                                <button class="btn btn-square btn-primary btn-air-primary add_detail_btn b-r-10" id="shitter_eidt_form_btn" type="submit"><%=lan.Submit%></button> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+          <!-- Container-fluid Ends-->
+        </div>
+
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA2v7oamtvcDZ7IOCc3ZKZcew4fDlGBgBU&callback=initMap&v=weekly" defer></script>
+        <script src="../../js/map_address_edit.js"></script>
+        <%- include('./partials/footer'); -%>
+        <%- include('./partials/script'); -%>
+  </body>
+</html>

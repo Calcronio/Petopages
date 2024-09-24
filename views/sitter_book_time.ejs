@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <%- include('./partials/head'); -%>
+    <link rel="stylesheet" type="text/css" href="../../css/vendors/calendar.css">
+</head>
+<body onload="startTime()">
+    <%- include('./partials/header_sidebar'); -%>
+    
+    <!-- tap on top starts-->
+
+        <!-- Page Sidebar Ends-->
+        <div class="page-body">
+          <div class="container-fluid">
+            <div class="page-title">
+              <div class="row">
+                <div class="col-sm-6">
+                  <h3><%=lan.Services%> <%=lan.Book%> <%=lan.Time%></h3>
+                </div>
+                <div class="col-sm-6">
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                    <li class="breadcrumb-item"><%=lan.Dashboard%></li>
+                    <li class="breadcrumb-item active"><%=lan.Services%> <%=lan.Book%> <%=lan.Time%></li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Container-fluid starts-->
+          <div class="container-fluid calendar-basic">
+
+            <div class="row project-cards">
+              <div class="col-md-12 project-list">
+                <div class="card">
+                  <div class="row">
+                    <div class="col-md-6 p-0 d-flex">
+                      <ul class="nav nav-tabs border-tab" id="top-tab" role="tablist">
+                        <% sitter_service_id.forEach((data, index) => { %>
+                          <% if(index == "0"){ %>
+                          <li class="nav-item" id="service_calendar" data-sid="<%=data.id%>"><a class="nav-link active " id="top-home-tab" data-bs-toggle="tab" role="tab" aria-controls="top-home" aria-selected="true"><i data-feather="calendar"></i><%=data.sname%></a></li>
+                          <% } else { %>
+                          <li class="nav-item" id="service_calendar" data-sid="<%=data.id%>"><a class="nav-link " id="profile-top-tab" data-bs-toggle="tab" role="tab" aria-controls="top-profile" aria-selected="false"><i data-feather="calendar"></i><%=data.sname%></a></li>
+                          <% }; %>
+                        <% }) %>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="card">
+              <div class="card-body">
+                <div class="row" id="wrap">
+                  <div class="col-xxl-0 box-col-30">
+                    <div id="external-events">
+                      <div id="external-events-list">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-xxl-12 box-col-70">
+                    <div class="calendar-default" id="calendar-container">
+                      <div id="calendar"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Container-fluid Ends-->
+        </div>
+
+    <%- include('./partials/footer'); -%>
+    <%- include('./partials/script'); -%>
+    <script src="../../js/calendar/fullcalendar.min.js"></script>
+    <script src="../../js/calendar/fullcalendar-custom.js"></script>
+  </body>
+</html>

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <%- include('./partials/head'); -%>
+    
+</head>
+<body onload="startTime()">
+    <%- include('./partials/header_sidebar'); -%>
+    
+    <!-- tap on top starts-->
+
+        <!-- Page Sidebar Ends-->
+        <div class="page-body">
+          <div class="container-fluid">
+            <div class="page-title">
+              <div class="row">
+                <div class="col-sm-6">
+                  <h3><%=lan.Wallet%></h3>
+                </div>
+                <div class="col-sm-6">
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                    <li class="breadcrumb-item"><%=lan.Dashboard%></li>
+                    <li class="breadcrumb-item active"><%=lan.Wallet%></li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Container-fluid starts-->
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="">
+                  <div class=" pricing-content price-simple">
+                    <div class="row justify-content-between">
+
+
+                      <div class="col-lg-3 col-sm-6 box-col-3">
+                        <div class="card text-center pricing-simple">
+                          <div class="card-body">
+                            <h3 class="mb-3 invosymbol"><%=sitter_wallet[0].wallet%></h3>
+                            <input type="hidden" id="stotal_balance" value="<%=sitter_wallet[0].wallet%>">
+                          </div>
+                          <a class="btn btn-lg btn-primary btn-block" href="javascript:void(0)">
+                            <h5 class="mb-0"><%=lan.Total%> <%=lan.Balance%></h5>
+                          </a>
+                        </div>
+                      </div>
+
+                      <div class="col-lg-3 col-sm-6 box-col-3">
+                        <div class="card text-center pricing-simple">
+                          <div class="card-body">
+                            <h3 class="mb-3 invosymbol"><%=general.s_min_withdraw%></h3>
+                            <input type="hidden" id="smin_balance" value="<%=general.s_min_withdraw%>">
+                          </div>
+                          <a class="btn btn-lg btn-primary btn-block" href="javascript:void(0)">
+                            <h5 class="mb-0"><%=lan.Wallet_Min_Balance_For_Withdraw%></h5>
+                          </a>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+    
+    
+                  <div class="col-sm-12 mt-4">
+                    <div class="card">
+                        <div class="card-body">
+                          <form  class="needs-validation" novalidate="" action="/sitter/wallet_withdraw" method="post">
+                              <div class="row">
+                                  <div class="col-12 mb-0 form-group">
+                                      <label class="col-form-label"><%=lan.Enter%> <%=lan.Withdraw%> <%=lan.Amount%></label>
+                                      <input class="form-control" type="number" id="sitter_withdraw_input" name="Withdraw_amount" placeholder="<%=lan.Enter%> <%=lan.Withdraw%> <%=lan.Amount%>" required>
+                                  </div>
+                                    
+                                  <div class="col-6 form-group d-none" id="sw_select">
+                                    <label class="col-form-label"><%=lan.Select%> <%=lan.Payment%> <%=lan.Type%></label>
+                                    <select class="js-example-basic-single " id="s_payment_type" name="spayment_type" required>
+                                      <option value selected disabled><%=lan.Payment%> <%=lan.Type%></option>
+                                      <option value="1"><%=lan.UPI%></option>
+                                      <option value="2"><%=lan.Paypal%></option>
+                                      <option value="3"><%=lan.Bank%> <%=lan.Transfer%></option>
+                                    </select>
+                                  </div>
+
+                                  <div class="col-12 form-group mt-3" id="payment_data">
+                                  </div>
+
+                                  <input type="hidden" name="stotal_id" value="<%=sitter_wallet[0].id%>">
+                              </div>
+                              <div class="text-end mt-0">
+                                <button class="btn btn-square btn-primary btn-air-primary add_detail_btn b-r-10 disabled" id="wallet_submit" type="submit"><%=lan.Withdraw%></button> 
+                              </div>
+                          </form>
+                        </div>
+                    </div>
+                </div>
+
+
+                <% if(swallet_data != ""){ %>
+                <div class="col-sm-12">
+                  <div class="card">
+                    <div class="card-header pb-0">
+                      <h4><%=lan.Total%> <%=lan.Withdraw%></h4>
+                    </div>
+                      <div class="card-body">
+                          <div class="table-responsive theme-scrollbar">
+                              <table class="display" id="basic-1">
+                                  <thead>
+                                      <tr>
+                                          <th>#</th>
+                                          <th><%=lan.Payment%> <%=lan.Image%></th>
+                                          <th><%=lan.Date%></th>
+                                          <th><%=lan.Amount%></th>
+                                          <th><%=lan.Payout%> <%=lan.Type%></th>
+                                          <th><%=lan.Status%></th>
+                                      </tr>
+                                  </thead>
+                                  <tbody>
+                                    <% var i = 1 %>
+                                      <% swallet_data.forEach((data) => { %>
+                                          <tr>
+                                              <td><%= i %></td>
+                                              <td class="p-1">
+                                                <% if(data.image != ""){ %>
+                                                  <a href="../../<%= data.image %>" target="_blank"><img width="50px" height="50px" src="../../<%= data.image %>" alt="image"></a>
+                                                <% }; %>
+                                              </td>
+                                              <td><%= data.date %></td>
+                                              <td class="invosymbol"><%= data.amount %></td>
+                                              <td>
+                                                <% if(data.p_type == "1"){ %>
+                                                  <span><%=lan.UPI%></span>
+                                                <% } else if (data.p_type == "2") { %>
+                                                  <span><%=lan.Paypal%></span>
+                                                <% } else if (data.p_type == "3") { %>
+                                                  <span><%=lan.Bank%> <%=lan.Transfer%></span>
+                                                <% }; %>
+                                              </td>
+                                              <td>
+                                                <% if(data.status == "0"){ %>
+                                                  <span class="btn btn-square btn-warning p-1 px-2" data-bs-toggle="modal" data-bs-target="#complete_payment" id="complete_wpayment" 
+                                                    data-image="<%= data.image %>" data-id="<%= data.id %>" data-p_type="<%= data.p_type %>" data-upi_id="<%= data.upi_id %>" 
+                                                    data-paypal_id="<%= data.paypal_id %>" data-bank_no="<%= data.bank_no %>" data-bank_ifsc="<%= data.bank_ifsc %>" 
+                                                    data-bank_type="<%= data.bank_type %>"><%=lan.Pending%></span>
+                                                <% } else { %>
+                                                  <span class="btn btn-square btn-primary p-1 px-2"  data-bs-toggle="modal" data-bs-target="#complete_payment" id="complete_wpayment" 
+                                                    data-image="<%= data.image %>" data-id="<%= data.id %>" data-p_type="<%= data.p_type %>" data-upi_id="<%= data.upi_id %>" 
+                                                    data-paypal_id="<%= data.paypal_id %>" data-bank_no="<%= data.bank_no %>" data-bank_ifsc="<%= data.bank_ifsc %>" 
+                                                    data-bank_type="<%= data.bank_type %>"><%=lan.Complete%></span>
+                                                <%  }; %>
+                                              </td>
+                                          </tr>
+                                      <% i++ %>
+                                      <% }) %>
+                                  </tbody>
+                              </table>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <% }; %>
+
+
+            </div>
+          </div>
+          <!-- Container-fluid Ends-->
+        </div>
+
+
+
+
+
+
+        <div class="modal fade" id="complete_payment" tabindex="-1" role="dialog" aria-labelledby="complete_payment" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <h5 class="modal-title"><%=lan.Payment%> <%=lan.Detail%></h5>
+                      <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                    <div class="modal-body">
+                        <div class="row g-3">
+                          <div class="col-12 text-center mb-0 form-group pb-3">
+                            <img class="spayimg" width="150" height="150" src="" alt="image">
+                          </div>
+
+                            <div class="col-12 d-none" id="pay_urp">
+                                <h5><%=lan.UPI%> <%=lan.Id%> :- <span class="f-w-400 pupi_data"></span></h5>
+                            </div>
+                            
+                            <div class="col-12 d-none" id="pay_paypal">
+                                <h5><%=lan.Paypal%> <%=lan.Id%> :- <span class="f-w-400 ppaypal_data"></span></h5>
+                            </div>
+
+                            <div class="col-12 d-none" id="pay_account">
+                                <h5><%=lan.Bank%> <%=lan.Account%> <%=lan.No%> :- <span class="f-w-400 pbankac_data"></span></h5>
+                                <h5 class="mt-2"><%=lan.IFSC%> <%=lan.Code%> :- <span class="f-w-400 pifsc_data"></span></h5>
+                                <h5 class="mt-2"><%=lan.Bank%> <%=lan.Account%> <%=lan.Type%> :- <span class="f-w-400 pactype_data"></span></h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button class="btn btn-secondary" type="button" data-bs-dismiss="modal"><%=lan.Close%></button>
+                    </div>
+              </div>
+          </div>
+      </div>
+        
+        
+
+        <%- include('./partials/footer'); -%>
+        <%- include('./partials/script'); -%>
+  </body>
+</html>

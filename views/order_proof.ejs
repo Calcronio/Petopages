@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <%- include('./partials/head'); -%>
+    
+</head>
+<body onload="startTime()">
+    <%- include('./partials/header_sidebar'); -%>
+    
+    <!-- tap on top starts-->
+
+        <!-- Page Sidebar Ends-->
+        <div class="page-body">
+          <div class="container-fluid">
+            <div class="page-title">
+              <div class="row">
+                <div class="col-sm-6">
+                  <h3><%=lan.Service%> <%=lan.Proof%></h3>
+                </div>
+                <div class="col-sm-6">
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                    <li class="breadcrumb-item"><%=lan.Dashboard%></li>
+                    <li class="breadcrumb-item active"><%=lan.Service%> <%=lan.Proof%></li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Container-fluid starts-->
+          <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <% if (order_data[0].status == "4" || order_data[0].status == "5") { %>
+                            <div class="card-header d-flex justify-content-end pb-0">
+                                <button class="btn btn-square btn-primary b-r-10" type="button" data-bs-toggle="modal" data-bs-target="#add_unitmodal"><%=lan.Add%> <%=lan.Service%> <%=lan.Proof%></button>
+                            </div>
+                        <% }; %>
+                        <div class="card-body">
+                            <div class="table-responsive theme-scrollbar">
+                                <table class="display" id="basic-1">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th><%=lan.Date%></th>
+                                            <th><%=lan.Title%></th>
+                                            <th><%=lan.Image%></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% var i = 1 %>
+                                        <% all_proof.forEach((data) => { %>
+                                            <tr>
+                                                <td><%= i %></td>
+                                                <td><%= data.date %></td>
+                                                <td><%= data.title %></td>
+                                                
+                                                <td class="p-1">
+                                                    <% data.image.forEach((img) => { %>
+                                                        <% if(img == null){ %>
+                                                            <img class="m-r-15" width="50px" height="50px" src="../images/dashboard/default/profile.png" alt="image">
+                                                        <% } else { %>
+                                                            <a href="../../<%= img %>" target="_blank"><img class="m-r-15" width="50px" height="50px" src="../../<%= img %>" alt="image"></a>
+                                                        <% }; %>
+                                                    <% }) %>
+                                                </td>
+                                            </tr>
+                                        <% i++ %>
+                                        <% }) %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+          <!-- Container-fluid Ends-->
+        </div>
+
+        <div class="modal fade" id="add_unitmodal" tabindex="-1" role="dialog" aria-labelledby="add_unitmodal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"><%=lan.Add%> <%=lan.Proof%></h5>
+                        <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form  class="needs-validation" novalidate="" action="/order/uproof/<%=orderid%>" method="post" enctype="multipart/form-data">
+                        <div class="modal-body">
+                            <div class="row g-3">
+                                <div class="col-12 form-group">
+                                    <label class="form-label"><%=lan.Image%></label>
+                                    <input class="form-control" style="height: 47px;" type="file" name="image" multiple onchange="showPreview(event)" required>
+                                </div>
+                                <div class="col-12 form-group">
+                                    <label class="form-label"><%=lan.Title%></label>
+                                    <input class="form-control" type="text" name="title" placeholder="<%=lan.Enter%> <%=lan.Title%>" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" type="button" data-bs-dismiss="modal"><%=lan.Close%></button>
+                            <button class="btn btn-primary" type="submit"><%=lan.Save%></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    <%- include('./partials/footer'); -%>
+    <%- include('./partials/script'); -%>
+  </body>
+</html>

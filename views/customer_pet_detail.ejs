@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <%- include('./partials/head'); -%>
+    
+</head>
+<body onload="startTime()">
+    <%- include('./partials/header_sidebar'); -%>
+    
+    <!-- tap on top starts-->
+
+        <!-- Page Sidebar Ends-->
+        <div class="page-body">
+          <div class="container-fluid">
+            <div class="page-title">
+              <div class="row">
+                <div class="col-sm-6">
+                  <h3><%=lan.Pet%> <%=lan.Detail%></h3>
+                </div>
+                <div class="col-sm-6">
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                    <li class="breadcrumb-item"><%=lan.Dashboard%></li>
+                    <li class="breadcrumb-item active"><%=lan.Pet%> <%=lan.Detail%></li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Container-fluid starts-->
+          <div class="container-fluid user-card">
+            <div class="row">
+              <% pet_data.forEach(function(pet){ %>
+
+                <div class="col-lg-4 col-md-6 box-col-33">
+                  <div class="card custom-card">
+                    <div class="card-header d-flex justify-content-center">
+                      <% if(pet.image == null){ %>
+                        <img class="img-fluid mt-0 cimage" src="../images/dashboard/default/profile.png" alt="">
+                      <% } else { %>
+                        <img class="img-fluid cimage" style="width: 400px; height: 260px;" src="../../<%=pet.category_image%>" alt="">
+                      <% }; %>
+                    </div>
+                    <div class="card-profile">
+                      <% if(pet.category_image == null){ %>
+                        <img class="rounded-circle cpet" src="../images/dashboard/default/profile.png" alt="">
+                      <% } else { %>
+                        <img class="rounded-circle cpet" src="../../<%=pet.image%>" alt="">
+                      <% }; %>
+                    </div>
+                    <div class="text-center profile-details"><a href="">
+                      <h4><%=pet.name%></h4></a>
+                      <h6><%=pet.category_name%></h6>
+                    </div>
+                    <div class="card-footer row">
+                      <div class="col-4 col-sm-4">
+                        <h6><%=lan.Gender%></h6>
+                        <h3 class="counter f-16"><%=pet.gender%></h3>
+                      </div>
+                      <div class="col-4 col-sm-4">
+                        <h6><%=lan.Date%></h6>
+                        <h3 class="counter f-16"><%=pet.date%></h3>
+                      </div>
+                      <div class="col-4 col-sm-4">
+                        <h6><%=lan.Pet%> <%=lan.Nature%></h6>
+                        <h3 class="counter f-16"><%=pet.pet_nature%></h3>
+                      </div>
+                    </div>
+                    <div class="card-footer row">
+                      <div class="col-4 col-sm-4">
+                        <h6><%=lan.Breed%></h6>
+                        <h3 class="counter f-16"><%=pet.breed_name%></h3>
+                      </div>
+                      <div class="col-4 col-sm-4">
+                        <h6><%=lan.Pet%> <%=lan.Size%></h6>
+                        <h3 class="counter f-16"><%=pet.size_name%></h3>
+                        <span class="f-14 f-w-500">( <%=pet.min_size%> - <%=pet.max_size%> <%=pet.size_units%> )</span>
+                      </div>
+                      <div class="col-4 col-sm-4">
+                        <h6><%=lan.Pet%> <%=lan.Year%></h6>
+                        <h3 class="counter f-16"><%=pet.year_name%> </h3>
+                        <span class="f-14 f-w-500">( <%=pet.min_year%> - <%=pet.max_year%> <%=pet.year_units%> )</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              <% }); %>
+            </div>
+          </div>
+          <!-- Container-fluid Ends-->
+        </div>
+
+        <%- include('./partials/footer'); -%>
+        <%- include('./partials/script'); -%>
+  </body>
+</html>

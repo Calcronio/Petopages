@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <%- include('./partials/head'); -%>
+    
+</head>
+<body onload="startTime()">
+    <%- include('./partials/header_sidebar'); -%>
+    
+    <!-- tap on top starts-->
+
+        <!-- Page Sidebar Ends-->
+        <div class="page-body">
+          <div class="container-fluid">
+            <div class="page-title">
+              <div class="row">
+                <div class="col-sm-6">
+                  <h3><%=lan.Services%></h3>
+                </div>
+                <div class="col-sm-6">
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                    <li class="breadcrumb-item"><%=lan.Dashboard%></li>
+                    <li class="breadcrumb-item active"><%=lan.Services%></li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Container-fluid starts-->
+          <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <form class="needs-validation" id="sitter_services_form" novalidate="" action="/sitter/edit_services/<%=sitter_data[0].id%>" method="post">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4">
+                                            <label class="col-form-label"><%=lan.Services%> <%=lan.List%></label>
+                                            <select class="js-example-basic-single" id="sitter_services_list" name="status" required>
+                                                <option value selected disabled><%=lan.Services%> <%=lan.List%></option>
+                                                <% let check_service = 0; %>
+                                                <% services_data.forEach(function(service_data){ %>
+
+                                                    <% sitter_service_id.forEach(function(checkid){ %>
+                                                        <% if(service_data.id == checkid.service_id){ %>
+                                                            <% check_service = 1; %>
+                                                        <% }; %>    
+                                                    <% }) %>
+
+                                                    <% if(check_service == "0"){ %>
+                                                    <option value="<%=service_data.id%>"><%=service_data.name%></option>
+                                                    <% }; %>   
+                                                    <% check_service = 0; %>
+                                                <% }) %>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="" id="add_services">
+                                        <% let check_one = 0; %>
+                                        <% for (let i = 0; i < sitter_service_id.length; i++){ %>
+
+                                            <div class="mt-5" id="row_sitter_services">
+                                                <div class="col-12 text-end">
+                                                    <button class="btn btn-square btn-primary b-r-6" id="sitter_add_services" type="button" ><%=lan.Add%></button>
+                                                </div>
+                                                <div class="" id="first_sitter">
+                                                    <% for (let a = 0; a < services.length; a++){ %>
+                                                    <% if (sitter_service_id[i].service_id == services[a].service_id){ %>
+                                                        <% if (check_one == 0){ %>
+                                                            <% check_one = 1; %>
+                                                        <div class="row col-12" id="add_sitter_service">
+                                                            <div class="col-sm-12 col-md-3 col-lg-3 col-xl-3">
+                                                                <label class="col-form-label"><%=lan.Services%> <%=lan.Name%></label>
+                                                                <input class="form-control" type="text" value="<%=services[a].service_name%>"  readonly>
+                                                                <input class="add_services_id" type="number" name="service_id" value="<%=services[a].service_id%>" hidden>
+                                                                <input class="add_services_id" type="number" name="services_data_id" value="<%=services[a].id%>" hidden>
+                                                            </div>
+                                                            <div class="col-sm-12 col-md-3 col-lg-3 col-xl-3">
+                                                                <label class="col-form-label"><%=lan.Service%> <%=lan.Type%></label>
+                                                                <input class="form-control shitter_input" type="text" name="service_type" value="<%=services[a].service_type%>" placeholder="<%=lan.Enter%> <%=lan.Service%> <%=lan.Type%>">
+                                                            </div>
+                                                            <div class="col-sm-12 col-md-2 col-lg-2 col-xl-2">
+                                                                <label class="col-form-label"><%=lan.Price%></label>
+                                                                <input class="form-control shitter_input" type="number" name="price" value="<%=services[a].price%>" placeholder="<%=lan.Enter%> <%=lan.Price%>">
+                                                            </div>
+                                                            <div class="col-sm-12 col-md-3 col-lg-3 col-xl-3">
+                                                                <label class="col-form-label"><%=lan.Price%> <%=lan.Type%></label>
+                                                                <input class="form-control shitter_input" type="text" name="price_type" value="<%=services[a].price_type%>" placeholder="<%=lan.Enter%> Type<%=lan.Type%>">
+                                                            </div>
+                                                            <div class="col-sm-0 col-md-1 col-lg-1 col-xl-1" style="padding-top: 40px;">
+                                                                <a type="button" class="mx-4 text-danger delete_all_sitter"><i class="fa fa-trash-o f-24"></i></a>
+                                                            </div>
+                                                        </div>
+
+                                                        <% } else { %>
+
+                                                            <div class="row col-12" id="add_sitter_service">
+                                                                <div class="col-sm-0 col-md-3 col-lg-3 col-xl-3">
+                                                                    <input class="" type="number" name="service_id" value="<%=services[a].service_id%>" hidden>
+                                                                    <input class="add_services_id" type="number" name="services_data_id" value="<%=services[a].id%>" hidden>
+                                                                </div>
+                                                                <div class="col-sm-12 col-md-3 col-lg-3 col-xl-3">
+                                                                    <label class="col-form-label"><%=lan.Service%> <%=lan.Type%></label>
+                                                                    <input class="form-control shitter_input" type="text" name="service_type" value="<%=services[a].service_type%>" placeholder="<%=lan.Enter%> <%=lan.Service%> <%=lan.Type%>">
+                                                                </div>
+                                                                <div class="col-sm-12 col-md-2 col-lg-2 col-xl-2">
+                                                                    <label class="col-form-label"><%=lan.Price%></label>
+                                                                    <input class="form-control shitter_input" type="number" name="price" value="<%=services[a].price%>" placeholder="<%=lan.Enter%> <%=lan.Price%>">
+                                                                </div>
+                                                                <div class="col-sm-12 col-md-3 col-lg-3 col-xl-3">
+                                                                    <label class="col-form-label"><%=lan.Price%> <%=lan.Type%></label>
+                                                                    <input class="form-control shitter_input" type="text" name="price_type" value="<%=services[a].price_type%>" placeholder="<%=lan.Enter%> <%=lan.Type%>">
+                                                                </div>
+                                                                <div class="col-sm-12 col-md-1 col-lg-1 col-xl-1" style="padding-top: 40px;">
+                                                                    <a type="button" class="mx-4 text-danger delete_sitter_service"><i class="fa fa-trash-o f-24"></i></a>
+                                                                </div>
+                                                            </div>
+
+                                                        <% }; %>
+                                                        <% }; %>
+
+                                                    <% }; %>
+
+                                                </div>
+                                            </div>
+                                            <% check_one = 0; %>
+                                        <% }; %>
+                                    </div>
+                                    <input type="hidden" name="services_id" value="<%=serices_id%>">
+
+                                    <div class="text-center">
+                                        <p class="text-danger d-none mt-3" id="shitter_detail_error"><%=lan.Please_Enter_All_Detail%>.</p>
+                                        <p class="text-danger d-none mt-3" id="shitter_services_error"><%=lan.Select_Services%>.</p>
+                                    </div>
+                                    
+                                </div>
+                            </form>
+                            <div class="text-end mt-5">
+                                <button class="btn btn-square btn-primary btn-air-primary add_detail_btn b-r-10" id="sitter_submit_btn" type="submit"><%=lan.Submit%></button> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+          <!-- Container-fluid Ends-->
+        </div>
+
+        <%- include('./partials/footer'); -%>
+        <%- include('./partials/script'); -%>
+  </body>
+</html>

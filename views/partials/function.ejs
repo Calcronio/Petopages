@@ -1,0 +1,1626 @@
+<script>
+$(document).ready(function (){
+    $(".js-example-basic-single").select2();
+    $(".custome_select").select2({dropdownCssClass : 'bigdrop'}); 
+
+    $(".custome_select_create").select2({
+        dropdownCssClass : 'bigdrop',
+        tags: true,
+        tokenSeparators: [',', ' ']
+    })
+    
+    
+
+    $(document).on("click", ".lang", function(){
+        let lan = $(this).attr("data-value")
+        const base_url = window.location.origin;
+        $.ajax({
+            url: base_url + '/language',
+            type: 'POST',
+            dataType: 'JSON',
+            data: {lan},
+            success: function (res){
+                location.reload()
+            }
+        });
+    })
+
+    if ($("#hidden_lang").val() == 'in') {
+        $("#in").addClass("bg-primary")
+    } else if ($("#hidden_lang").val() == 'de') {
+        $("#de").addClass("bg-primary")
+    } else if ($("#hidden_lang").val() == 'en') {
+        $("#en").addClass("bg-primary")
+    } else if ($("#hidden_lang").val() == 'pt') {
+        $("#pt").addClass("bg-primary")
+    } else if ($("#hidden_lang").val() == 'es') {
+        $("#es").addClass("bg-primary")
+    } else if ($("#hidden_lang").val() == 'fr') {
+        $("#fr").addClass("bg-primary")
+    } else if ($("#hidden_lang").val() == 'cn') {
+        $("#cn").addClass("bg-primary")
+    } else if ($("#hidden_lang").val() == 'ae') {
+        $("#ae").addClass("bg-primary")
+        $("html").attr("dir", "rtl")
+    }
+
+    $(document).on('click', '#cus_sign_btn', function(){
+        let name = $("#customet_name").val()
+        let email = $("#customet_email").val()
+        let country = $("#customet_code").val()
+        let phone = $("#customet_number").val()
+        let password = $("#customet_pass").val()
+
+        if (name == "" || email == "" || country == null || phone == "" || password == "") {
+            $("#customer_details_error").removeClass('d-none');
+        } else {
+            $("#customer_details_error").addClass('d-none');
+            $("#customer_email_error, #customer_phoneno_error").addClass('d-none');
+            
+            const base_url = window.location.origin;
+            
+            $.ajax({
+                url: base_url + '/customer/signup_ajex',
+                type: 'POST',
+                dataType: 'JSON',
+                data: {country, phone},
+                success: function (res){
+                    
+                    if(res.error == "phone_error") {
+                        $("#customer_phoneno_error").removeClass('d-none')
+                    } else {
+                        $("#customer_phoneno_error").addClass('d-none')
+                        $("#customer_signup_form").submit()
+                    }
+                }
+            });
+        }
+    })
+
+    $(document).on('click', '#cus_sign_btn', function(){
+        let email = $('#edit_cus_email').val()
+        let country = $('#edit_cus_code').val()
+        let old_ccode = $('#edit_ccode').val()
+        let phone = $('#edit_cus_phone').val()
+        let old_phone = $('#edit_phone').val()
+
+        if (phone != old_phone || country != old_ccode) {
+            const base_url = window.location.origin;
+            
+            $.ajax({
+                url: base_url + '/customer/edit_customer_ajax',
+                type: 'POST',
+                dataType: 'JSON',
+                data: {phone, country},
+                success: function (res){
+                    
+                if (res.error == "phone_error") {
+                    $("#edit_phone_error").removeClass('d-none')
+                } else {
+                    $("#edit_phone_error").addClass('d-none')
+                    $("#edit_signup_form").submit()
+                }
+              }
+            });
+
+        } else {
+            $("#edit_signup_form").submit() 
+        }
+
+    })
+
+    $(document).on('click', '#edit_faq', function(){
+        let { id, title, des: description } = $(this).data();
+
+        $("#edit_faq_form").attr("action", '/settings/edit_faq/' + id)
+        $("#faq_title").attr("value", title)
+        $("#faq_description").val(description)
+    })
+
+    $(document).on('click', '#add_zone_click', function(){
+        $("#zone_card").addClass("d-none")
+        $("#add_zone_card").removeClass("d-none")
+    })
+
+    $(document).on('click', '#list_zone_click', function(){
+        $("#zone_card").removeClass("d-none")
+        $("#add_zone_card").addClass("d-none")
+    })
+
+    $(document).on('change', '#sitter_services_list', function(){
+        let service_id = $(this).val()
+        const base_url = window.location.origin;
+            
+        $.ajax({
+            url: base_url + '/sitter_data/services_check',
+            type: 'POST',
+            dataType: 'JSON',
+            data: {service_id},
+            success: function (res){
+                $("#sitter_services_list").html("")
+                $("#sitter_services_list").html("<option value selected disabled>Services List</option>")
+
+                $("#add_services").append(
+                    '<div class="mt-5" id="row_sitter_services">'+
+                        '<div class="col-12 text-end">'+
+                            '<button class="btn btn-square btn-primary b-r-6" id="sitter_add_services" type="button" >Add</button>'+
+                        '</div>'+
+                        '<div class="" id="first_sitter">'+
+                            '<div class="row col-12" id="add_sitter_service">'+
+                                '<div class="col-sm-12 col-md-3 col-lg-3 col-xl-3">'+
+                                    '<label class="col-form-label">Services Name</label>'+
+                                    '<input class="form-control" type="text" value="'+res.services[0].name+'"  readonly>'+
+                                    '<input class="add_services_id" type="number" name="service_id" value="'+res.services[0].id+'" hidden>'+
+                                    '<input class="add_services_id" type="number" name="services_data_id" value="0" hidden>'+
+                                '</div>'+
+                                '<div class="col-sm-12 col-md-3 col-lg-3 col-xl-3">'+
+                                    '<label class="col-form-label">Service Type</label>'+
+                                    '<input class="form-control shitter_input" type="text" name="service_type" placeholder="Enter Service Type">'+
+                                '</div>'+
+                                '<div class="col-sm-12 col-md-2 col-lg-2 col-xl-2">'+
+                                    '<label class="col-form-label">Price</label>'+
+                                    '<input class="form-control shitter_input" type="number" name="price" placeholder="Enter Price">'+
+                                '</div>'+
+                                '<div class="col-sm-12 col-md-3 col-lg-3 col-xl-3">'+
+                                    '<label class="col-form-label">Price Type</label>'+
+                                    '<input class="form-control shitter_input" type="text" name="price_type" placeholder="Enter Type">'+
+                                '</div>'+
+                                '<div class="col-sm-0 col-md-1 col-lg-1 col-xl-1" style="padding-top: 40px;">'+
+                                    '<a type="button" class="mx-4 text-danger delete_all_sitter"><i class="fa fa-trash-o f-24"></i></a>'+
+                                '</div>'+
+                            '</div>'+
+                        '</div>'+
+                    '</div>'
+                )
+
+                let add_ser_id = []
+                $(".add_services_id").each(function(){
+                    let add_id = $(this).val()
+                    add_ser_id.push(add_id)
+                })
+
+                $.each(res.services_data, function(index, value){
+                    let check_id = 0;
+                    $.each(add_ser_id, function(i, val){
+                        if (value.id == val) {
+                            check_id = 1
+                        }
+                    });
+                    
+                    if (check_id != 1) {
+                        $("#sitter_services_list").append('<option value="'+value.id+'">'+value.name+'</option>')
+                    }
+                });
+
+            }
+        });
+    })
+
+    $(document).on('click', '#sitter_add_services', function(){
+        let curentrow = $(this).closest("#row_sitter_services")
+        let id = curentrow.find(".add_services_id").val()
+
+        curentrow.find("#first_sitter").append(
+            '<div class="row col-12" id="add_sitter_service">'+
+                '<div class="col-sm-0 col-md-3 col-lg-3 col-xl-3">'+
+                    '<input class="" type="number" name="service_id" value="'+id+'" hidden>'+
+                    '<input class="add_services_id" type="number" name="services_data_id" value="0" hidden>'+
+                '</div>'+
+                '<div class="col-sm-12 col-md-3 col-lg-3 col-xl-3">'+
+                    '<label class="col-form-label">Service Type</label>'+
+                    '<input class="form-control shitter_input" type="text" name="service_type" placeholder="Enter Service Type">'+
+                '</div>'+
+                '<div class="col-sm-12 col-md-2 col-lg-2 col-xl-2">'+
+                    '<label class="col-form-label">Price</label>'+
+                    '<input class="form-control shitter_input" type="number" name="price" placeholder="Enter Price">'+
+                '</div>'+
+                '<div class="col-sm-12 col-md-3 col-lg-3 col-xl-3">'+
+                    '<label class="col-form-label">Price Type</label>'+
+                    '<input class="form-control shitter_input" type="text" name="price_type" placeholder="Enter Type">'+
+                '</div>'+
+                '<div class="col-sm-12 col-md-1 col-lg-1 col-xl-1" style="padding-top: 40px;">'+
+                    '<a type="button" class="mx-4 text-danger delete_sitter_service"><i class="fa fa-trash-o f-24"></i></a>'+
+                '</div>'+
+            '</div>'
+        )
+    })
+
+    $(document).on('click', '.delete_sitter_service', function(){
+        $(this).parents("#add_sitter_service").remove()
+    })
+
+    $(document).on('click', '.delete_all_sitter', function(){
+        $(this).parents("#row_sitter_services").remove()
+        const base_url = window.location.origin; 
+        $.ajax({
+            url: base_url + '/sitter_data/services_check',
+            type: 'POST',
+            dataType: 'JSON',
+            success: function (res){
+                $("#sitter_services_list").html("<option value selected disabled>Services List</option>")
+                let add_ser_id = []
+                $(".add_services_id").each(function(){
+                    let add_id = $(this).val()
+                    add_ser_id.push(add_id)
+                })
+
+                $.each(res.services_data, function(index, value){
+                    let check_id = 0;
+                    $.each(add_ser_id, function(i, val){
+                        if (value.id == val) {
+                            check_id = 1
+                        }
+                    });
+                    if (check_id != 1) {
+                        $("#sitter_services_list").append('<option value="'+value.id+'">'+value.name+'</option>')
+                    }
+                });
+            }
+        });
+    })
+
+    $(document).on('click', '#shitter_form_btn', function(){
+        let input_check = $(".shitter_input").filter(function(){
+            return $(this).val() === "" || $(this).val() === null;
+        }).length;
+
+        let service_id = $(".add_services_id").val()
+        $("#shitter_email_error, #shitter_phoneno_error").addClass("d-none");
+
+        if (input_check != "0") {
+            $("#shitter_detail_error").removeClass("d-none")   
+            $("#shitter_services_error").addClass("d-none")
+               
+        } else if(service_id == undefined) {
+            $("#shitter_services_error").removeClass("d-none")   
+            $("#shitter_detail_error").addClass("d-none")   
+            
+        } else {
+            $("#shitter_detail_error").addClass("d-none")   
+            $("#shitter_services_error").addClass("d-none")   
+            const base_url = window.location.origin;
+
+            let country = $("#shitter_country_code").val()
+            let phone = $("#shitter_phone").val()
+            
+            $.ajax({
+                url: base_url + '/customer/signup_ajex',
+                type: 'POST',
+                dataType: 'JSON',
+                data: {country, phone},
+                success: function (res){
+
+                    $("#shitter_email_error").toggleClass("d-none", res.error !== "email_error");
+                    $("#shitter_phoneno_error").toggleClass("d-none", res.error !== "phone_error");
+
+                    if (res.error !== "email_error" && res.error !== "phone_error") {
+                        $("#shitter_form_click").submit();
+                    }
+                }
+            });
+        }
+    })
+
+    $(document).on('click', '#shitter_eidt_form_btn', function(){
+        let input_check = 0
+        $(".shitter_input").each(function(){
+            if ($(this).val() == "" || $(this).val() == null) {
+                input_check += parseFloat(1) 
+            }
+        })
+        let service_id = $(".add_services_id").val()
+
+        $("#shitter_email_error").addClass("d-none")   
+        $("#shitter_phoneno_error").addClass("d-none")   
+
+        if (input_check != "0") {
+            $("#shitter_detail_error").removeClass("d-none")   
+            $("#shitter_services_error").addClass("d-none")
+               
+        } else if(service_id == undefined) {
+            $("#shitter_services_error").removeClass("d-none")   
+            $("#shitter_detail_error").addClass("d-none")   
+            
+        } else {
+            $("#shitter_detail_error").addClass("d-none")   
+            $("#shitter_services_error").addClass("d-none")   
+
+            let country = $('#shitter_country_code').val()
+            let phone = $('#shitter_phone').val()
+            let old_phone = $('#old_phone').val()
+            
+            if (phone != old_phone) {
+                const base_url = window.location.origin;
+
+                $.ajax({
+                    url: base_url + '/customer/edit_customer_ajax',
+                    type: 'POST',
+                    dataType: 'JSON',
+                    data: {phone, country},
+                    success: function (res){
+
+                    if (res.error == "phone_error") {
+                        $("#shitter_phoneno_error").removeClass('d-none')
+                    } else {
+                        $("#shitter_phoneno_error").addClass('d-none')
+                        $("#shitter_edit_form_click").submit()
+                    }
+                  }
+                });
+
+            } else {
+                $("#shitter_edit_form_click").submit() 
+            }
+        }
+    })
+
+    $('[id^=gallery_mouse]').hover(function(){
+        let image_id = $(this).attr('data-imgid')
+        $(".chech_gallery").each(function(){
+            $(this).find("#gallery_delete_click").addClass("d-none")
+        })
+        $(this).find("#gallery_delete_click").removeClass("d-none")
+        
+    })
+
+    $(document).on("click", '#gallery_delete_click', function(){
+        let id = $(this).parents("#gallery_mouse").attr('data-imgid')
+        const base_url = window.location.origin;
+        $.ajax({
+            url: base_url + '/sitter/delete_gallery',
+            type: 'POST',
+            dataType: 'JSON',
+            data: {id},
+            success: function (res){
+            if (res.status == true) {
+                window.location.reload()
+            }
+          }
+        });
+    })
+
+    $(document).on("click", '#sitter_submit_btn', function(){
+        let input_check = 0
+        $(".shitter_input").each(function(){
+            if ($(this).val() == "" || $(this).val() == null) {
+                input_check += parseFloat(1) 
+            }
+        })
+
+        if ($(".add_services_id").val() === undefined || input_check !== 0) {
+            $("#shitter_detail_error").removeClass("d-none")   
+            $("#shitter_services_error").addClass("d-none")
+        } else {
+            $("#shitter_detail_error").addClass("d-none")   
+            $("#shitter_services_error").addClass("d-none")
+            $("#sitter_services_form").submit()
+        }
+    })
+
+    $(document).on("click", '#edit_breed', function(){
+        let id = $(this).attr('data-id')
+        let name = $(this).attr('data-name')
+        $("#breed_edit_form").attr('action', '/category/edit_breed/' + id)
+        $("#breed_name").attr('value', name)
+    })
+
+    $(document).on("click", '#edit_petsize_model', function(){
+        let {id, name, minsize, maxsize, units} = $(this).data();
+
+        $("#petsize_edit_form").attr('action', '/category/edit_pet_size/' + id)
+        $("#size_name").attr('value', name)
+        $("#min_size").attr('value', minsize)
+        $("#max_size").attr('value', maxsize)
+        $("#size_units").attr('value', units)
+    })
+
+    $(document).on("click", '#edit_petYear_model', function(){
+        let { id, name, min_year, max_year, units } = $(this).data();
+
+        $("#petYear_edit_form").attr('action', '/category/edit_pet_age/' + id)
+        $("#Year_name").attr('value', name)
+        $("#min_Year").attr('value', min_year)
+        $("#max_Year").attr('value', max_year)
+        $("#Year_units").attr('value', units)
+    })
+
+    $(document).on('click', '#pet_gender_click', function(){
+        let id = $(this).attr("data-gender")
+        $(".gender_class").each(function(){
+            $(this).find('#gender_card').addClass("b-dark border-1").removeClass('b-primary border-2')
+        })
+        let current_row = $(this).find('#gender_card').removeClass("b-dark border-1").addClass('b-primary border-2')
+        $("#pet_gender").val(id)
+    })
+
+    $(document).on('click', '#pet_size_click', function(){
+        let id = $(this).attr("data-size")
+        $(".size_clsss").each(function(){
+            $(this).find('#size_card').addClass("b-dark border-1").removeClass('b-primary border-2')
+        })
+        let current_row = $(this).find('#size_card').removeClass("b-dark border-1").addClass('b-primary border-2')
+        $("#pet_size").val(id)
+    })
+
+    $(document).on('click', '#pet_year_click', function(){
+        let id = $(this).attr("data-year")
+        $(".year_class").each(function(){
+            $(this).find('#year_card').addClass("b-dark border-1").removeClass('b-primary border-2')
+        })
+        let current_row = $(this).find('#year_card').removeClass("b-dark border-1").addClass('b-primary border-2')
+        $("#pet_year").val(id)
+    })
+
+    $(document).on('click', '#netuered_click', function(){
+        let id = $(this).attr("data-nature")
+        $(".netuered_class").each(function(){
+            $(this).find('#natured_card').addClass("b-dark border-1").removeClass('b-primary border-2')
+        })
+        let current_row = $(this).find('#natured_card').removeClass("b-dark border-1").addClass('b-primary border-2')
+        $("#netured_input").val(id)
+    })
+
+    $(document).on('click', '#sitter_pet_btn', function(){
+        let input_check = 0;
+        $(".pet_input_check").each(function(){
+            if ($(this).val() == "" || $(this).val() == null) {
+                input_check += parseFloat(1)
+            }
+        })
+
+        if ($(".sitter_pet").val() == null) {
+            $("#sitter_pet_detail").removeClass('d-none')
+        } else if(input_check != 0) {
+            $("#sitter_pet_detail").removeClass('d-none')
+        } else {
+            $("#sitter_pet_detail").addClass('d-none')
+            $("#sitter_adpet_form").submit()
+        }
+    })
+
+    $(document).on('click', '#add_new_about', function(){
+        let index = 1;
+        $(".about_id").each(function(){
+            let id =  $(this).val(index)
+            let current = $(this).parents("#about_title_row")
+            current.find(".about_secound_id").each(function(){
+                $(this).val(index)
+            })
+            index++
+        })
+
+        $("#add_about").append(
+            '<div class="border-bottom border-3 pb-4 mt-5" id="row_sitter_about">'+
+                '<div class="col-12">'+
+                    '<label class="col-form-label">Heading</label>'+
+                    '<input class="form-control about_input" type="text" name="about_heading" value="" placeholder="Enter Description">'+
+                '</div>'+
+                '<div class="col-12">'+
+                    '<label class="col-form-label">Description</label>'+
+                    '<textarea class="form-control about_input" name="about_description" style="width: 100%; height: 90px;" required></textarea>'+
+                '</div>'+
+                '<div class="col-12 mt-2 text-end">'+
+                    '<button class="btn btn-square btn-primary b-r-6" id="sitter_add_about" type="button" >Add</button>'+
+                '</div>'+
+                '<div class="" id="about_title_row">'+
+                    '<div class="row col-12" id="add_sitter_service">'+
+                        '<div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">'+
+                            '<label class="col-form-label">Title</label>'+
+                            '<input class="form-control about_title_input" id="about_first_title" name="title" type="text" value="" placeholder="Enter Title" >'+
+                            '<input class="about_id" type="number" name="about_id" value="'+index+'" hidden>'+
+                        '</div>'+
+                        '<div class="col-sm-12 col-md-2 col-lg-2 col-xl-2 d-flex text-center">'+
+                            '<div >'+
+                                '<button class="btn btn-square btn-primary b-r-10 add_icon_click" style="margin-top: 36px;" type="button" data-bs-toggle="modal" data-bs-target="#add_unitmodal">Select Icon</button>'+
+                                '<input type="hidden" class="about_icon_input" value="0">'+
+                            '</div>'+
+                            '<div class="m-l-20 d-flex align-items-end">'+
+                                '<img id="show_icon" height="45" width="45" src="../images/dashboard/default/profile.png" alt="Image">'+
+                                // '<label class="form-label f-34 mb-0" style="padding-top: 33px; padding-left: 40px;"><i class="" id="show_icon"></i></label>'+
+                                '<input class="about_input" type="hidden" id="icon_input" name="icon" value="">'+
+                            '</div>'+
+                        '</div>'+
+                        '<div class="col-sm-12 col-md-5 col-lg-5 col-xl-5">'+
+                            '<label class="col-form-label">Sub Title</label>'+
+                            '<input class="form-control about_input" type="text" name="about_subtitle" value="" placeholder="Enter Description">'+
+                        '</div>'+
+                        '<div class="col-sm-12 col-md-1 col-lg-1 col-xl-1" style="padding-top: 40px;">'+
+                            '<a type="button" class="mx-4 text-danger delete_all_about"><i class="fa fa-trash-o f-24"></i></a>'+
+                        '</div>'+
+                    '</div>'+
+                '</div>'+
+            '</div>'
+        )
+    })
+
+    $(document).on('click', '.delete_all_about', function(){
+        $(this).parents("#row_sitter_about").remove()
+        let index = 1;
+        $(".about_id").each(function(){
+            let id =  $(this).val(index)
+            let current = $(this).parents("#about_title_row")
+            current.find(".about_secound_id").each(function(){
+                $(this).val(index)
+            })
+            index++
+        })
+    })
+
+    $(document).on('click', '#sitter_add_about', function(){
+        let current_row = $(this).parents("#row_sitter_about")
+        let id = current_row.find(".about_id").val()
+
+        current_row.find("#about_title_row").append(
+            '<div class="row col-12 mt-2" id="add_sitter_service">'+
+                '<div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">'+
+                    '<input class="form-control about_secound_title" type="text" name="title"  value="" placeholder="Enter Title" hidden>'+
+                    '<input class="about_secound_id" type="number" name="about_id" value="'+id+'" hidden>'+
+                '</div>'+
+                '<div class="col-sm-12 col-md-2 col-lg-2 col-xl-2 d-flex text-center">'+
+                    '<div >'+
+                        '<button class="btn btn-square btn-primary b-r-10 add_icon_click" style="margin-top: 36px;" type="button" data-bs-toggle="modal" data-bs-target="#add_unitmodal">Select Icon</button>'+
+                        '<input type="hidden" class="about_icon_input" value="0">'+
+                    '</div>'+
+                    '<div class="m-l-20 d-flex align-items-end">'+
+                        '<img id="show_icon" height="45" width="45" src="../images/dashboard/default/profile.png" alt="Image">'+
+                        // '<label class="form-label f-34 mb-0" style="padding-top: 33px; padding-left: 40px;"><i class="" id="show_icon"></i></label>'+
+                        '<input class="about_input" type="hidden" id="icon_input" name="icon" value="">'+
+                    '</div>'+
+                '</div>'+
+                '<div class="col-sm-12 col-md-5 col-lg-5 col-xl-5">'+
+                    '<label class="col-form-label">Sub Title</label>'+
+                    '<input class="form-control about_input" type="text" name="about_subtitle" value="" placeholder="Enter Description">'+
+                '</div>'+
+                '<div class="col-sm-12 col-md-1 col-lg-1 col-xl-1" style="padding-top: 40px;">'+
+                    '<a type="button" class="mx-4 text-danger delete_about"><i class="fa fa-trash-o f-24"></i></a>'+
+                '</div>'+
+            '</div>'
+        )
+    })
+
+    $(document).on('click', '.delete_about', function(){
+        $(this).parents('#add_sitter_service').remove()
+    })
+
+    $(document).on('click', '.add_icon_click', function(){
+        let current = $(this).parents("#add_sitter_service")
+        current.find(".about_icon_input").val(1)
+    })
+    
+    $(document).on('click', '#about_image_click', function(){
+        let icon = $(this).attr("data-icon")
+        $(".about_icon_input").each(function(){
+            if ($(this).val() == "1") {
+                let current = $(this).parents("#add_sitter_service")
+                let old_class = current.find("#icon_input").val()
+                current.find("#show_icon").attr("src", "../../uploads/about/" + icon)
+                current.find("#icon_input").val(icon)
+                current.find(".about_icon_input").val(0)
+                $("#icon_list_close").click()
+            }
+        })
+    })
+
+    $(document).on('click', '#sitter_about_field_check', function(){
+        let input_check = $(".about_input").filter((index, element) => $(element).val() === "").length;
+        $(".about_title_input").each(function(){
+            let title = $(this).val()
+            if (title == "") {
+                input_check += parseFloat(1)
+            } else {
+                let current = $(this).parents("#about_title_row")
+                current.find(".about_secound_title").each(function(){
+                    $(this).val(title)
+                })
+            }
+        })
+
+        if (input_check != "0" || $(".about_title_input").val() == undefined) {
+            $("#sitter_about_detail_error").removeClass('d-none');
+        } else {
+            $("#sitter_about_detail_error").addClass('d-none');
+            $("#shitter_about_form").submit();
+        }
+
+
+    })
+
+    $(document).on("click", '#edit_banner', function(){
+        let { id, image, title, subtitle, services } = $(this).data();
+        $("#banner_edit_form").attr('action', '/settings/edit_banner/' + id)
+        $(".banner_img").attr('src', "../../" + image)
+        $("#banner_image").attr('value', image)
+        $("#banner_title").attr('value', title)
+        $("#banner_subtitle").attr('value', subtitle)
+        $("#banner_services").select2().val(services).trigger('change')
+    })
+
+    $(document).on("click", '#folder_open_click', function(){
+        let filename = $(this).attr('data-filename')
+        const base_url = window.location.origin;
+        $.ajax({
+            url: base_url + '/settings/open_folder_data',
+            type: 'POST',
+            dataType: 'JSON',
+            data: {filename},
+            success: function (res){
+                $("#show_all_folder_image").html("")
+                $.each(res.all_file, function(index, value){
+                    $("#show_all_folder_image").append(
+                        '<div class="col-sm-6 col-md-2 col-lg-2 col-xl-2 p-0 m-2 text-center">'+
+                            '<img class="img-fluid" style="height: 100px; width: 125px;" src="'+ value.file +'" alt="image">'+
+                        '</div>'
+                    )
+                })
+            }
+        });
+    })
+
+    $(document).on("click", '#edit_sitter_faq_model', function(){
+        let { id, title, description } = $(this).data();
+        $("#sitterfaq_edit_form").attr('action', '/sitter/edit_faq/' + id)
+        $("#sitter_abour_title").attr('value', title)
+        $("#sitter_abour_description").val(description)
+    })
+
+    $(document).on('click', '#edit_sitter_coupon', function(){
+        let { id, title, sub_title, code, min_amount, discount_amount, start_date, end_date } = $(this).data();
+        
+        $('#coupon_edit_form').attr('action', '/sitter/edit_coupon/' + id);
+        $('#edit_title').attr('value', title);
+        $('#edit_subtitle').attr('value', sub_title);
+        $('.edit_code').attr('value', code);
+        
+        let start_date_date = new Date(start_date);
+        let start_date_day = (start_date_date.getDate() < 10 ? '0' + parseInt(start_date_date.getDate()) : start_date_date.getDate());
+        let start_date_month = (start_date_date.getMonth()+1 < 10 ? '0' + parseInt(start_date_date.getMonth()+1) : start_date_date.getMonth()+1);
+        let start_date_year = start_date_date.getFullYear();
+        let start_dates = `${start_date_year}-${start_date_month}-${start_date_day}`;
+        $('#edit_start').attr('value', start_dates);
+  
+        let end_date_date = new Date(end_date);
+        let end_date_day = (end_date_date.getDate() < 10 ? '0' + parseInt(end_date_date.getDate()) : end_date_date.getDate());
+        let end_date_month = (end_date_date.getMonth()+1 < 10 ? '0' + parseInt(end_date_date.getMonth()+1) : end_date_date.getMonth()+1);
+        let end_date_year = end_date_date.getFullYear();
+        let end_dates = `${end_date_year}-${end_date_month}-${end_date_day}`;
+        $('#edit_end').attr('value', end_dates);
+  
+        $('#edit_minimuma').attr('value', min_amount);
+        $('#edit_discounta').attr('value', discount_amount);
+    })
+
+    $(document).on('click', '#time_btn', function(){
+        $(this).toggleClass('btn-light btn-primary');
+        id = $(this).attr("data-id")
+
+        let current_row = $(this).parents(".time_div")
+        let check_val = current_row.find("#time_input").val()
+        check_val == "" ? current_row.find("#time_input").val(id) : current_row.find("#time_input").val("")
+    })
+
+    $(document).on("click", '#edit_status_model', function(){
+        let { id, name, notifi_text, status } = $(this).data();
+
+        $("#status_edit_form").attr('action', '/settings/edit_status/' + id)
+        $("#status_name").attr('value', name)
+        $("#status_noti").attr('value', notifi_text)
+        $("#status_active").select2().val(status).trigger('change')
+    })
+
+    $(".dropbtn").click(function(){
+        let dropdowns = document.getElementsByClassName("dropdown-content");
+        let i;
+        for (i = 0; i < dropdowns.length; i++) {
+            let openDropdown = dropdowns[i];
+            if (openDropdown.classList.contains('show')) {
+  
+              openDropdown.classList.remove('show');
+            };
+        };
+  
+        let currentRow=$(this).closest(".dropdown");
+        currentRow.find(".myDropdown").toggleClass("show");
+    });
+
+    window.onclick = function(event) {
+        if (!event.target.matches('.dropbtn')) {
+            let dropdowns = document.getElementsByClassName("dropdown-content");
+            let i;
+            for (i = 0; i < dropdowns.length; i++) {
+                    let openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
+                };
+            };
+        };
+    };
+
+    $(document).on("click", '#approved_click', function(){
+        let id = $(this).attr("data-id")
+        const base_url = window.location.origin;
+        $.ajax({
+            url: base_url + '/order/approved',
+            type: 'POST',
+            dataType: 'JSON',
+            data: {id},
+            success: function (res){
+                if (res.status === true) {
+                    location.reload()
+                }
+            }
+        });
+    })
+
+    $(document).on("click", '#click_cancel', function(){
+        let id = $(this).attr("data-id")
+        $("#cancel_id").val(id)
+    })
+
+    $(document).on('click', '.radio_click', function(){
+        let id = $(this).find('.radio_button').attr("data-id")
+        let title = $(this).find('.radio_button').attr("data-title")
+        $("#other_reason").addClass('d-none')
+        $("#other_reason_input").val("")
+
+        if ($(this).find('.radio_button').prop("checked") === true) {
+            $(this).find('.radio_button').prop("checked", false)
+            $("#cancel_input").val("")
+
+        } else {
+            $(this).find('.radio_button').prop("checked", true)
+            $("#reason_massage").addClass("d-none")
+            if (id == "8") {
+                $("#other_reason").removeClass('d-none')
+                $("#cancel_input").val("")
+            } else {
+                $("#cancel_input").val(title)
+            }
+        }
+        $("#other_reason_input").on('input', function(){
+            let other = $(this).val()
+            $("#cancel_input").val(other)
+        })  
+    })
+
+    $(document).on('click', '#reason_save', function(){
+        if ($("#cancel_input").val() == "") {
+            $("#reason_massage").removeClass("d-none")
+        } else {
+            $("#reason_massage").addClass("d-none")
+            $("#reason_form").submit()
+        }
+    })
+
+    $(document).on('click', '#click_start_send_otp', function(){
+        let id = $(this).attr('data-id')
+        const base_url = window.location.origin;
+        $.ajax({
+            url: base_url + '/order/send_otp',
+            type: 'POST',
+            dataType: 'JSON',
+            data: {id},
+            success: function (res){
+                $("#otp_data").val(res.otp)
+                $("#service_id").val(res.id)
+
+                $("#order_otp_data").html('')
+
+                $.each(res.all_date, function(index, value){
+                    let dateHTML = ""
+                    dateHTML = '<div class="row col-12 mb-3 ">' +
+                                    '<h5 class="mb-0">Date : ' + value.date + '</h5>';
+                    
+                    $.each(value.times, function(i, time){
+                        if (time.status === "3" ) {
+                            
+                            dateHTML += '<div class="col-sm-6 col-md-4 col-lg-3 col-xl-3 p-1 text-center">' +
+                                        '<button class="btn btn-square btn-danger p-1" type="button">' + time.time + '</button>' +
+                                        '</div>';
+                        } else if (time.status === "2") {
+                            dateHTML += '<div class="col-sm-6 col-md-4 col-lg-3 col-xl-3 p-1 text-center">' +
+                                        '<button class="btn btn-square btn-warning p-1" type="button">' + time.time + '</button>' +
+                                        '</div>';
+
+                        } else if (time.status === "1") {
+                            dateHTML += '<div class="col-sm-6 col-md-4 col-lg-3 col-xl-3 p-1 text-center">' +
+                                        '<button class="btn btn-square btn-success p-1" type="button">' + time.time + '</button>' +
+                                        '</div>';
+                                        
+                        } else if (time.status === "0") {
+                            dateHTML += '<div class="col-sm-6 col-md-4 col-lg-3 col-xl-3 p-1 text-center">' +
+                                        '<button class="btn btn-square btn-light p-1" type="button">' + time.time + '</button>' +
+                                        '</div>';
+
+                        }
+                    });
+                    dateHTML += '</div>';
+
+                    $("#order_otp_data").append(dateHTML);
+                });
+
+                if (res.otp == "") {
+                    $('#start_otp_input').addClass('d-none')
+                } else {
+                    $('#start_otp_input').removeClass('d-none')
+                }
+            }
+        });
+    })
+
+    $(document).on('click', '#submit_otp_btn', function(){
+        let newotp = $("#enter_otp").val()
+        $("#otp_check_error").addClass('d-none')
+        if (newotp == "") {
+            $("#check_otp").removeClass('d-none')
+        } else {
+            $("#check_otp").addClass('d-none')
+            let id = $("#service_id").val()
+            const base_url = window.location.origin;
+            $.ajax({
+                url: base_url + '/order/otpcheck',
+                type: 'POST',
+                dataType: 'JSON',
+                data: {id, newotp},
+                success: function (res){
+                    if (res.status === true) {
+                        $("#otp_check_error").addClass('d-none')
+                        $("#otp_form_submit").submit()
+                    } else {
+                        $("#otp_check_error").removeClass('d-none')
+                    }
+                }
+            });
+        }
+    })
+
+    // $(document).on('click', '#submit_otp_btn', function(){
+    //     let newotp = $("#enter_otp").val()
+    //     let otpvalue = $("#otp_data").val()
+    //     if (newotp == "") {
+    //         $("#check_otp").removeClass('d-none')
+    //     } else {
+    //         $("#check_otp").addClass('d-none')
+    //         if (newotp != otpvalue) {
+    //             $("#otp_check_error").removeClass('d-none')
+    //         } else {
+    //             $("#otp_check_error").addClass('d-none')
+    //             $("#otp_form_submit").submit()
+    //         }
+    //     }
+
+    // })
+
+    $(document).on('click', '#click_end_send_otp', function(){
+        let id = $(this).attr('data-id')
+        const base_url = window.location.origin;
+        $.ajax({
+            url: base_url + '/order/send_otp',
+            type: 'POST',
+            dataType: 'JSON',
+            data: {id},
+            success: function (res){
+                $("#end_otp_data").val(res.otp)
+                $("#end_service_id").val(res.id)
+
+
+                let otp_date = res.current_id
+                $("#end_otp_date").val(otp_date)
+                $("#end_order_otp_data").html('')
+
+                $.each(res.all_date, function(index, value){
+                    let dateHTML = ""
+                    dateHTML = '<div class="row col-12 mb-3 ">' +
+                                    '<h5 class="mb-0">Date : ' + value.date + '</h5>';
+                    
+                                    $.each(value.times, function(i, time){
+                        if (time.status === "3" ) {
+                            
+                            dateHTML += '<div class="col-sm-6 col-md-4 col-lg-3 col-xl-3 p-1 text-center">' +
+                                        '<button class="btn btn-square btn-danger p-1" type="button">' + time.time + '</button>' +
+                                        '</div>';
+                        } else if (time.status === "2") {
+                            dateHTML += '<div class="col-sm-6 col-md-4 col-lg-3 col-xl-3 p-1 text-center">' +
+                                        '<button class="btn btn-square btn-warning p-1" type="button">' + time.time + '</button>' +
+                                        '</div>';
+
+                        } else if (time.status === "1") {
+                            dateHTML += '<div class="col-sm-6 col-md-4 col-lg-3 col-xl-3 p-1 text-center">' +
+                                        '<button class="btn btn-square btn-success p-1" type="button">' + time.time + '</button>' +
+                                        '</div>';
+                                        
+                        } else if (time.status === "0") {
+                            dateHTML += '<div class="col-sm-6 col-md-4 col-lg-3 col-xl-3 p-1 text-center">' +
+                                        '<button class="btn btn-square btn-light p-1" type="button">' + time.time + '</button>' +
+                                        '</div>';
+
+                        }
+                    });
+                    dateHTML += '</div>';
+
+                    $("#end_order_otp_data").append(dateHTML);
+                });
+                if (res.otp == "") {
+                    $('#end_otp_input').addClass('d-none')
+                } else {
+                    $('#end_otp_input').removeClass('d-none')
+                }
+            }
+        });
+    })
+
+    $(document).on('click', '#submit_end_otp_btn', function(){
+
+        let newotp = $("#enter_end_otp").val()
+        $("#end_otp_check_error").addClass('d-none')
+        if (newotp == "") {
+            $("#end_check_otp").removeClass('d-none')
+        } else {
+            $("#end_check_otp").addClass('d-none')
+            let id = $("#end_service_id").val()
+            const base_url = window.location.origin;
+            $.ajax({
+                url: base_url + '/order/otpcheck',
+                type: 'POST',
+                dataType: 'JSON',
+                data: {id, newotp},
+                success: function (res){
+                    if (res.status === true) {
+                        $("#end_otp_check_error").addClass('d-none')
+                        $("#endotp_form_submit").submit()
+                    } else {
+                        $("#end_otp_check_error").removeClass('d-none')
+                    }
+                }
+            });
+        }
+    })
+
+    // $(document).on('click', '#submit_end_otp_btn', function(){
+    //     let newotp = $("#enter_end_otp").val()
+    //     let otpvalue = $("#end_otp_data").val()
+    //     if (newotp == "") {
+    //         $("#end_check_otp").removeClass('d-none')
+    //     } else {
+    //         $("#end_check_otp").addClass('d-none')
+    //         if (newotp != otpvalue) {
+    //             $("#end_otp_check_error").removeClass('d-none')
+    //         } else {
+    //             $("#end_otp_check_error").addClass('d-none')
+    //             $("#endotp_form_submit").submit()
+    //         }
+    //     }
+    // })
+
+    $(document).on('input', '#sitter_withdraw_input', function(){
+        let amount = $(this).val()
+        let tbalance = $("#stotal_balance").val()
+        let minbalnce = $("#smin_balance").val()
+        if (parseFloat(tbalance) >= parseFloat(minbalnce)) {
+            if (parseFloat(amount) >= parseFloat(minbalnce) && parseFloat(amount) <= parseFloat(tbalance)) {       
+                $('#sw_select').removeClass('d-none')   
+                $('#wallet_submit').removeClass('disabled')
+            } else {
+                $('#sw_select').addClass('d-none')
+                $('#wallet_submit').addClass('disabled')
+                $('#payment_data').html('')
+                $('#s_payment_type').select2().val('').trigger('change')
+            }
+        } else {
+            $('#sw_select').addClass('d-none')
+            $('#wallet_submit').addClass('disabled')
+            $('#payment_data').html('')   
+            $('#s_payment_type').select2().val('').trigger('change')
+        }
+    })
+
+    $(document).on('change', '#s_payment_type', function(){
+        let value = $(this).val()
+        $('#payment_data').html('')
+        if (value == "1") {
+            $('#payment_data').html(
+                '<label class="col-form-label">UPI Id</label>'+
+                '<input class="form-control" type="text" name="upi_id" placeholder="Enter UPI Id" required>'
+            )
+        } else if(value == "2") {
+            $('#payment_data').html(
+                '<label class="col-form-label">Paypal Email Id</label>'+
+                '<input class="form-control" type="text" name="paypal_id" placeholder="Enter Paypal Email Id" required>'
+            )   
+        } else if(value == "3") {
+            $('#payment_data').html(
+                '<label class="col-form-label">Bank Account No</label>'+
+                '<input class="form-control" type="number" name="bank_no" placeholder="Enter Paypal Email Id" required>'+
+                '<label class="col-form-label">IFSC Code</label>'+
+                '<input class="form-control" type="text" name="bank_ifsc" placeholder="Enter IFSC Code" required>'+
+                '<label class="col-form-label">Bank Account Type</label>'+
+                '<input class="form-control" type="text" name="bank_type" placeholder="Enter Account Type" required>'
+            )   
+        }
+    })
+
+    $(document).on('click', '#complete_wpayment', function(){
+        let { id, image, p_type, upi_id, paypal_id, bank_no, bank_ifsc, bank_type } = $(this).data();
+        $("#payment_sid").val(id)
+        if (image != "") $(".spayimg").attr('src', "../../" + image)
+        else $(".spayimg").attr('src', "../images/dashboard/default/profile.png")
+        $("#pay_urp").addClass('d-none')
+        $("#pay_paypal").addClass('d-none')
+        $("#pay_account").addClass('d-none')
+        if (p_type == "1") {
+            $("#pay_urp").removeClass('d-none')
+            $(".pupi_data").text('').text(upi_id)
+        }
+        if (p_type == "2") {
+            $("#pay_paypal").removeClass('d-none')
+            $(".ppaypal_data").text('').text(paypal_id)
+        }
+        if (p_type == "3") {
+            $("#pay_account").removeClass('d-none')
+            $(".pbankac_data").text('').text(bank_no)
+            $(".pifsc_data").text('').text(bank_ifsc)
+            $(".pactype_data").text('').text(bank_type)
+        }
+    })
+
+    $(document).on("click", '#chat_user', function(){
+        
+        if ($(this).hasClass("chat_background") === false) {
+            
+            $(".chat_div").each(function() {
+                $(this).removeClass("chat_background")
+            })
+            
+            $(this).addClass("chat_background")
+    
+            $(this).find("#new_message").addClass("d-none")
+            let id = $(this).attr("data-id")
+    
+            const base_url = window.location.origin;
+            $.ajax({
+                url: base_url + '/chat/chat_list',
+                type: 'POST',
+                dataType: 'JSON',
+                data: {id},
+                success: function (res){
+                    $("#chat_profile_user").html("").html(res.user[0].name)
+                    $("#chat_profile_time").html("").html('Last Message ' + res.last_data) 
+                    $("#senderu_id").val("").val(res.send_id)
+                    $("#chat_detail").html("")
+    
+                    $.each(res.all_chat, function(index, value){
+                        let dateHTML = ""
+                        dateHTML = '<li class="text-center my-2">'+
+                                        '<span class="f-w-500">'+ value.date +'</span>'+
+                                    '</li>';
+                        
+                        $.each(value.chat, function(i, time){
+                            if (time.status === 1 ) {
+                                
+                                dateHTML += '<li class="clearfix">'+
+                                                '<div class="message other-message pull-right py-1 mb-1 bg-light-primary" style="width: fit-content; max-width: 50%;">'+
+                                                    '<div class="message-data m-0"><span class="message-data-time">'+ time.date +'</span></div>'+ time.message +''+
+                                                '</div>'+
+                                            '</li>';
+                            } else {
+                                dateHTML += '<li>'+
+                                                '<div class="message my-message py-1 mb-1" style="width: fit-content; max-width: 50%;">'+
+                                                    '<div class="message-data text-end m-0"><span class="message-data-time">'+ time.date +'</span></div>'+ time.message +''+
+                                                '</div>'+
+                                            '</li>';
+                            }
+                        });
+                        dateHTML += '</div>';
+    
+                        $("#chat_detail").append(dateHTML);
+                    });
+    
+                    let chatDetail = document.getElementById('scrollbottom');
+                    chatDetail.scrollTop = chatDetail.scrollHeight;
+                }
+            });
+        }
+
+    })
+
+    $(document).on("change", "#report_d_date", function(){
+        let date = $(this).val()
+        let sid = $("#report_d_sl").select2().val()
+        // alert(sid)
+        dailyReport(date, sid)
+    })
+
+    $(document).on("change", "#report_d_sl", function(){
+        let sid = $(this).select2().val()
+        let date = $("#report_d_date").val()
+        dailyReport(date, sid)
+    })
+
+    function dailyReport(date, sid) {
+        const base_url = window.location.origin;
+        $.ajax({
+            url: base_url + '/report/daily_data',
+            type: 'POST',
+            dataType: 'JSON',
+            data: {date, sid},
+            success: function (res){
+                if (res.daily_list != "") {
+                    $("#dtotal").text(res.daily_list[0].today)
+                    $("#dpending").text(res.daily_list[0].pending)
+                    $("#dproc").text(res.daily_list[0].processing)
+                    $("#dcancel").text(res.daily_list[0].cancel)
+                    $("#dstart").text(res.daily_list[0].start)
+                    $("#dend").text(res.daily_list[0].end)
+                    $("#dcomplete").text(res.daily_list[0].complete)
+                }
+            }
+        }); 
+    }
+
+    $(document).on("change", "#rsbooksitter", function(){
+        let sitter = $(this).select2().val()
+        let start = $("#rsbookstart").val()
+        let end = $("#rsbookend").val()
+        let status = $("#rsbookstatus").select2().val()
+        bookserviceReport(sitter, start, end, status)
+    })
+
+    $(document).on("change", "#rsbookstart", function(){
+        let sitter = $("#rsbooksitter").select2().val()
+        let start = $(this).val()
+        let end = $("#rsbookend").val()
+        let status = $("#rsbookstatus").select2().val()
+        bookserviceReport(sitter, start, end, status)
+    })
+
+    $(document).on("change", "#rsbookend", function(){
+        let sitter = $("#rsbooksitter").select2().val()
+        let start = $("#rsbookstart").val()
+        let end = $(this).val()
+        let status = $("#rsbookstatus").select2().val()
+        bookserviceReport(sitter, start, end, status)
+    })
+
+    $(document).on("change", "#rsbookstatus", function(){
+        let sitter = $("#rsbooksitter").select2().val()
+        let start = $("#rsbookstart").val()
+        let end = $("#rsbookend").val()
+        let status = $(this).select2().val()
+        bookserviceReport(sitter, start, end, status)
+    })
+
+    function bookserviceReport(sitter, start, end, status) {
+        const base_url = window.location.origin;
+        $.ajax({
+            url: base_url + '/report/sbook_service',
+            type: 'POST',
+            dataType: 'JSON',
+            data: {sitter, start, end, status},
+            success: function (res){
+                $("#service_report").html("")
+
+                let data = ""
+                if (res.services != "") {
+                    $.each(res.services, function(i, v){
+                        let sta = ''
+                        if (v.status == "1" || v.status == "4" ||v.status == "5") sta = '<span class="badge badge-warning">'+ v.sta_name +'</span>'
+                        if (v.status == "2") sta = '<span class="badge badge-primary">'+ v.sta_name +'</span>'
+                        if (v.status == "3") sta = '<span class="badge badge-danger">'+ v.sta_name +'</span>'
+                        if (v.status == "6") sta = '<span class="badge badge-success">'+ v.sta_name +'</span>'
+
+                        data += '<tr>'+
+                                    '<td class="d-none"></td>'+
+                                    '<td>#'+ v.order_id +'</td>'+
+                                    '<td>'+ v.cus_name +'</td>'+
+                                    '<td>'+ v.sitt_name +'</td>'+
+                                    '<td class="invosymbol">'+ v.tot_price +'</td>'+
+                                    '<td>'+ v.date +'</td>'+
+                                    '<td>'+ sta +'</td>'+
+                                '</tr>'
+                    });                
+                }
+
+                $("#service_report").html(data)
+
+                $("#dbookr").text("").text(res.torder)
+
+                currency()
+                thousands_separators()
+            }
+        }); 
+    }
+
+    $(document).on("click", "#dbookreport", function(){
+        let sitter = $("#rsbooksitter").select2().val();
+        let start = $("#rsbookstart").val();
+        let end = $("#rsbookend").val();
+        let status = $("#rsbookstatus").select2().val();
+        const base_url = window.location.origin;
+        $.ajax({
+            url: base_url + '/report/dbook',
+            type: 'POST',
+            dataType: 'JSON',
+            data: {sitter, start, end, status},
+            success: function (res){
+            }
+        }); 
+    })
+
+    $(document).on("change", "#rcomstart", function(){
+        let start = $(this).val()
+        let end = $("#rcomkend").val()
+        let sitter = $("#rcomsitter").select2().val()
+        ecommission(start, end, sitter)
+    })
+
+    $(document).on("change", "#rcomkend", function(){
+        let start = $("#rcomstart").val()
+        let end = $(this).val()
+        let sitter = $("#rcomsitter").select2().val()
+        ecommission(start, end, sitter)
+    })
+
+    $(document).on("change", "#rcomsitter", function(){
+        let start = $("#rcomstart").val()
+        let end = $("#rcomkend").val()
+        let sitter = $(this).select2().val()
+        ecommission(start, end, sitter)
+    })
+
+    function ecommission(start, end, sitter) {
+        const base_url = window.location.origin;
+        $.ajax({
+            url: base_url + '/report/scommission',
+            type: 'POST',
+            dataType: 'JSON',
+            data: {start, end, sitter},
+            success: function (res){
+                
+                $("#commission_report").html("")
+
+                let data = ""
+                if (res.sdata != "") {
+
+                    $.each(res.sdata, function(i, v){
+
+                        data += '<tr>'+
+                                    '<td class="d-none"></td>'+
+                                    '<td>#'+ v.order_id +'</td>'+
+                                    '<td class="invosymbol">'+ v.csite +'</td>'+
+                                    '<td class="invosymbol">'+ v.csitter +'</td>'+
+                                    '<td class="invosymbol">'+ v.tot_price +'</td>'+
+                                    '<td>'+ v.date +'</td>'+
+                                    '<td>'+ v.cus_name +'</td>'+
+                                    '<td>'+ v.sitt_name +'</td>'+
+                                '</tr>'
+                    });                
+                                    
+                }
+
+                $("#commission_report").html(data)
+
+                $("#rctotal").text("").text(res.totservice)
+                $("#rcsite").text("").text(parseFloat(res.csite).toFixed(2))
+                $("#rcsitter").text("").text(parseFloat(res.csitter).toFixed(2))
+
+                currency()
+                thousands_separators()
+
+            }
+        }); 
+    }
+
+    $(document).on("click", "#dcommissionr", function(){
+        let start = $("#rcomstart").val()
+        let end = $("#rcomkend").val()
+        let sitter = $("#rcomsitter").select2().val()
+        const base_url = window.location.origin;
+        $.ajax({
+            url: base_url + '/report/dcommreport',
+            type: 'POST',
+            dataType: 'JSON',
+            data: {start, end, sitter},
+            success: function (res){
+            }
+        }); 
+    })
+
+    $(document).on("change", "#rpsitter", function(){
+        let sitter = $(this).select2().val()
+        let start = $("#rpstart").val()
+        let end = $("#rpend").val()
+        let status = $("#rpstatus").select2().val()
+        payoutRport(sitter, start, end, status)
+    })
+
+    $(document).on("change", "#rpstart", function(){
+        let sitter = $("#rpsitter").select2().val()
+        let start = $(this).val()
+        let end = $("#rpend").val()
+        let status = $("#rpstatus").select2().val()
+        payoutRport(sitter, start, end, status)
+    })
+
+    $(document).on("change", "#rpend", function(){
+        let sitter = $("#rpsitter").select2().val()
+        let start = $("#rpstart").val()
+        let end = $(this).val()
+        let status = $("#rpstatus").select2().val()
+        payoutRport(sitter, start, end, status)
+    })
+
+    $(document).on("change", "#rpstatus", function(){
+        let sitter = $("#rpsitter").select2().val()
+        let start = $("#rpstart").val()
+        let end = $("#rpend").val()
+        let status = $(this).select2().val()
+        payoutRport(sitter, start, end, status)
+    })
+
+    function payoutRport(sitter, start, end, status) {
+        const base_url = window.location.origin;
+        $.ajax({
+            url: base_url + '/report/payout_data',
+            type: 'POST',
+            dataType: 'JSON',
+            data: {sitter, start, end, status},
+            success: function (res){
+                $("#payout_report").html("")
+
+                let data = ""
+                if (res.payout != "") {
+
+                    $.each(res.payout, function(i, v){
+                        let pdata = ''
+                        if (v.p_type == "1") pdata = 'UPI'
+                        if (v.p_type == "2") pdata = 'Paypal'
+                        if (v.p_type == "3") pdata = 'Bank Transfer'
+                        
+                        let stat = ''
+                        if (v.status == "1") stat = '<span class="badge badge-warning">Complete</span>'
+                        if (v.status == "0") stat = '<span class="badge badge-primary">Pending</span>'
+
+                        data += '<tr>'+
+                                    '<td class="d-none"></td>'+
+                                    '<td>#'+ v.date +'</td>'+
+                                    '<td class="invosymbol">'+ v.amount +'</td>'+
+                                    '<td>'+ v.aemail +'</td>'+
+                                    '<td>'+ pdata +'</td>'+
+                                    '<td>'+ stat +'</td>'+
+                                '</tr>'
+                    });                
+                                        
+                }
+
+                $("#payout_report").html(data)
+
+                $("#prrotal").text("").text(res.ptotal)
+                $("#prcomplete").text("").text(res.tcprice)
+                $("#prpending").text("").text(res.tpprice)
+
+                currency()
+                thousands_separators()
+            }
+        }); 
+    }
+
+    $(document).on("click", "#dpayputreport", function(){
+        let sitter = $("#rpsitter").select2().val()
+        let start = $("#rpstart").val()
+        let end = $("#rpend").val()
+        let status = $("#rpstatus").select2().val()
+        const base_url = window.location.origin;
+        $.ajax({
+            url: base_url + '/report/dpayout',
+            type: 'POST',
+            dataType: 'JSON',
+            data: {sitter, start, end, status},
+            success: function (res){
+            }
+        }); 
+    })
+
+    $(document).on("click", "#printdata", function(){
+        let content = document.getElementById("printcontent").innerHTML;
+        document.body.innerHTML = content;
+        window.print();
+        location.reload();
+    })
+
+    $(document).on("click", "#role_fbtn", function(){
+        let check = 0
+        $(".checkin").each(function(){
+            if($(this).val() == "" || $(this).val() == null) check += 1
+        })
+
+        if (check != "0") {
+            $("#role_all_check").removeClass("d-none")
+        } else {
+            $("#role_all_check").addClass("d-none")
+
+            const base_url = window.location.origin;
+            $.ajax({
+                url: base_url + '/customer/signup_ajex',
+                type: 'POST',
+                dataType: 'JSON',
+                data: {country: $("#role_countrycode").select2().val(), phone: $("#role_phone").val()},
+                success: function (res){
+                    if (res.error == "phone_error") {
+                        $("#role_phone_check").removeClass("d-none")
+                    } else {
+                        $("#role_phone_check").addClass("d-none")
+                        $("#role_form").submit()
+                    }
+                }
+            });    
+        }
+    })
+
+    $(document).on("click", '#edit_role_fbtn', function(){
+        let check = 0
+        $(".checkin").each(function(){
+            if($(this).val() == "" || $(this).val() == null) check += 1
+        })
+        if (check != "0") {
+            $("#erole_all_check").removeClass("d-none")
+        } else {
+            $("#erole_all_check").addClass("d-none")
+            if ($("#erole_countrycode").select2().val() != $("#rold_code").val() || $("#erole_phone").val() != $("#rold_phone").val()) {
+                const base_url = window.location.origin;
+                $.ajax({
+                    url: base_url + '/customer/signup_ajex',
+                    type: 'POST',
+                    dataType: 'JSON',
+                    data: {country: $("#erole_countrycode").select2().val(), phone: $("#erole_phone").val()},
+                    success: function (res){
+                        if (res.error == "phone_error") {
+                            $("#erole_phone_check").removeClass("d-none")
+                        } else {
+                            $("#erole_phone_check").addClass("d-none")
+                            $("#erole_form").submit()
+                        }
+                    }
+                });   
+            } else {
+                $("#erole_form").submit()
+            }
+        }
+    })
+
+    $(document).on("change", "#selecttype", function(){
+        if( $(this).val() == "2" ) $("#notiuser").removeClass("d-none")
+        else $("#notiuser").addClass("d-none")
+    })
+
+    $(document).on("change", "#allcus", function(){
+        $("#ncustomer").select2().val('').trigger('change')
+    })
+    
+    // $(document).on("change", ".cselect", function(){
+    //     $(".allcus").prop("checked") === true ? $(".allcus").prop("checked", false) : $(".allcus").prop("checked", true)
+    // })
+    
+    $(document).on("change", "#allsitt", function(){
+        $("#nsitter").select2().val('').trigger('change')
+    })
+
+    $(document).on("click", "#notificatio_btn", function(){
+        if ($(".ncheckt").val() == "" || $(".ncheckd").val() == "") {
+            $("#send_all").removeClass("d-none")
+        } else {
+            if ($('.selecttype').is(":checked") === false) {
+                $("#send_all").removeClass("d-none")
+            } else {
+                let stype = $("input[name='selecttype']:checked").val()
+                if (stype == "2") {
+                    let check = 0
+                    if ($("#ncustomer").select2().val() !== null || $("#allcus").prop("checked") !== false || $("#nsitter").select2().val() !== null || $("#allsitt").prop("checked") !== false) {
+                        $("#send_all").addClass("d-none")
+                        $("#sendnform").submit()
+                    } else {
+                        $("#send_all").removeClass("d-none")
+                    }
+                } else if (stype == "1") {
+                    $("#send_all").addClass("d-none")
+                    $("#sendnform").submit()
+                }
+            }
+        }
+    })
+
+
+
+
+
+
+
+
+currency()
+thousands_separators()    
+})
+
+//<<<<<<<< gen coupon code >>>>>>>
+$(document).on('click', '#gen_code', function () {
+    $('#coupon_code').val(makeid(6));
+    return false;
+});
+
+function makeid(length) {
+    let result = '';
+    let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let charactersLength = characters.length;
+    for (let i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+}
+
+function showPreview(event) {
+    if (event.target.files.length > 0) {
+        let src = URL.createObjectURL(event.target.files[0]);
+        let preview = document.getElementById("file-preview");
+        preview.src = src;
+    };
+};
+
+function currency(){
+    let sym = $('#rate_sym').val()
+    let pls = $('#rate_pla').val()
+  
+    if(pls == 1){
+        let users = document.getElementsByClassName('invosymbol');
+        let user_length = users.length
+        for (let i = 0; i < user_length; ++i) {
+            let user = users[i];
+          
+            if (user.innerHTML.indexOf(sym) > -1){
+
+                user.innerHTML =  user.innerHTML +' ';
+            } else {
+                user.innerHTML =  user.innerHTML +' '+ sym;
+            }
+        }
+    }else{
+        let users = document.getElementsByClassName('invosymbol');
+        let user_length = users.length
+        for (let i = 0; i < user_length; ++i) {
+            let user = users[i];
+
+            if (user.innerHTML.indexOf(sym) > -1) {
+
+                user.innerHTML = ' '+ user.innerHTML;
+            } else {
+                user.innerHTML = sym +' '+ user.innerHTML;
+            }
+        }
+    }
+        
+}
+
+function thousands_separators(){
+    let thousands_replace = $('#thousand_replace').val()
+    let num = document.getElementsByClassName("invosymbol")
+  
+    let separator;
+    if (thousands_replace == '1') {
+      separator = ','
+    } else if (thousands_replace == '2') {
+      separator = '.'
+    } else if (thousands_replace == '3') {
+      separator = '`'
+    } else if (thousands_replace == '4') {
+      separator = ''
+    } else {
+      separator = ' '
+    }
+  
+    let num_length = num.length
+    for (let i = 0; i < num_length; ++i) {
+        let val = num[i]
+        let data = val.innerHTML
+        let num_parts = data.toString().split(".");
+        num_parts[0] = num_parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, separator);
+        
+        val.innerHTML = num_parts.join(".")
+    }
+}
+</script>

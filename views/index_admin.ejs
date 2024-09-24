@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <%- include('./partials/head'); -%>
+    
+</head>
+<body onload="startTime()">
+    <%- include('./partials/header_sidebar'); -%>
+    
+    <!-- tap on top starts-->
+
+        <!-- Page Sidebar Ends-->
+        <div class="page-body">
+          <div class="container-fluid">
+            <div class="page-title pb-2">
+              <div class="row">
+                <div class="col-sm-6">
+                  <h3><%=lan.Dashboard%></h3>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Container-fluid starts-->
+          <div class="container-fluid dashboard-2">
+            <div class="row">
+
+
+
+              <div class="col-12">
+                <div class=" profile-greeting"> 
+                  <div class=" p-0">
+                    <h5 class="px-4 py-3 "><%=lan.General%></h5>
+                  </div>              
+                  <div class="row pt-0">
+
+                    <div class="col-lg-3 col-md-6 box-col-4">
+                      <div class="card profit-card">
+                        <div class="card-header pb-0">
+                          <div class="d-flex justify-content-between">
+                            <div class="flex-grow-1">
+                              <p class="square-after f-w-600 header-text-primary "><%=lan.Total%> <%=lan.Category%><i class="fa fa-circle"> </i></p>
+                              <h4><%= category[0].total %></h4>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="card-body">
+                          <div class="right-side icon-right-primary"><i class="fa fa-list"></i>
+                            <div class="shap-block">
+                              <div class="rounded-shap animate-bg-primary"><i></i><i></i></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="col-lg-3 col-md-6 box-col-4">
+                      <div class="card visitor-card">
+                        <div class="card-header pb-0">
+                          <div class="d-flex justify-content-between">
+                            <div class="flex-grow-1">
+                              <p class="square-after f-w-600 header-text-info"><%=lan.Total%> <%=lan.Services%><i class="fa fa-circle"> </i></p>
+                              <h4><%= services[0].total %></h4>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="card-body">
+                          <div class="right-side icon-right-info"><i class="fa fa-list-ol"></i>
+                            <div class="shap-block">
+                              <div class="rounded-shap animate-bg-primary"><i></i><i></i></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+      
+                    <div class="col-lg-3 col-md-12 box-col-4">
+                      <div class="card sell-card">
+                        <div class="card-header pb-0">
+                          <div class="d-flex justify-content-between">
+                            <div class="flex-grow-1">
+                              <p class="square-after f-w-600 header-text-success"><%=lan.Total%> <%=lan.Services%> <%=lan.Status%><i class="fa fa-circle"> </i></p>
+                              <h4><%= statuss[0].total %></h4>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="card-body">
+                          <div class="right-side icon-right-success"><i class="fa fa-bars"></i>
+                            <div class="shap-block">
+                              <div class="rounded-shap animate-bg-secondary"><i></i><i></i></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+      
+                    <div class="col-lg-3 col-md-12 box-col-4">
+                      <div class="card sell-card">
+                        <div class="card-header pb-0">
+                          <div class="d-flex justify-content-between">
+                            <div class="flex-grow-1">
+                              <p class="square-after f-w-600 header-text-warning"><%=lan.Total%> <%=lan.Service%> <%=lan.Zone%><i class="fa fa-circle"> </i></p>
+                              <h4><%= zone[0].total %></h4>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="card-body">
+                          <div class="right-side icon-right-warning"><i class="fa fa-map"></i>
+                            <div class="shap-block">
+                              <div class="rounded-shap animate-bg-warning"><i></i><i></i></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+
+
+                  </div>
+                </div>
+              </div>
+
+
+
+              <div class="col-12">
+                <div class=" profile-greeting"> 
+                  <div class=" p-0">
+                    <h5 class="px-4 py-3 "><%=lan.Sitter%></h5>
+                  </div>              
+                  <div class="row pt-0">
+
+                    <div class="col-lg-3 col-md-6 box-col-4">
+                      <div class="card profit-card">
+                        <div class="card-header pb-0">
+                          <div class="d-flex justify-content-between">
+                            <div class="flex-grow-1">
+                              <p class="square-after f-w-600 header-text-primary "><%=lan.Total%> <%=lan.Sitter%><i class="fa fa-circle"> </i></p>
+                              <h4><%= sitter[0].total %></h4>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="card-body">
+                          <div class="right-side icon-right-primary"><i class="fa fa-user"></i>
+                            <div class="shap-block">
+                              <div class="rounded-shap animate-bg-primary"><i></i><i></i></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="col-lg-3 col-md-6 box-col-4">
+                      <div class="card visitor-card">
+                        <div class="card-header pb-0">
+                          <div class="d-flex justify-content-between">
+                            <div class="flex-grow-1">
+                              <p class="square-after f-w-600 header-text-info"><%=lan.Active%> <%=lan.Sitter%><i class="fa fa-circle"> </i></p>
+                              <h4><%= sitter[0].active %></h4>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="card-body">
+                          <div class="right-side icon-right-info"><i class="fa fa-user-circle-o"></i>
+                            <div class="shap-block">
+                              <div class="rounded-shap animate-bg-primary"><i></i><i></i></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+      
+                    <div class="col-lg-3 col-md-12 box-col-4">
+                      <div class="card sell-card">
+                        <div class="card-header pb-0">
+                          <div class="d-flex justify-content-between">
+                            <div class="flex-grow-1">
+                              <p class="square-after f-w-600 header-text-success"><%=lan.Verified%> <%=lan.Sitter%><i class="fa fa-circle"> </i></p>
+                              <h4><%= sitter[0].verified %></h4>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="card-body">
+                          <div class="right-side icon-right-success"><i class="fa fa-user-plus"></i>
+                            <div class="shap-block">
+                              <div class="rounded-shap animate-bg-secondary"><i></i><i></i></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+      
+                    <div class="col-lg-3 col-md-12 box-col-4">
+                      <div class="card sell-card">
+                        <div class="card-header pb-0">
+                          <div class="d-flex justify-content-between">
+                            <div class="flex-grow-1">
+                              <p class="square-after f-w-600 header-text-warning"><%=lan.Deactivate%> <%=lan.Sitter%><i class="fa fa-circle"> </i></p>
+                              <h4><%= sitter[0].deactive %></h4>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="card-body">
+                          <div class="right-side icon-right-warning"><i class="fa fa-user-times"></i>
+                            <div class="shap-block">
+                              <div class="rounded-shap animate-bg-warning"><i></i><i></i></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+
+
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="col-12">
+                <div class=" profile-greeting"> 
+                  <div class=" p-0">
+                    <h5 class="px-4 py-3 "><%=lan.Customer%></h5>
+                  </div>              
+                  <div class="row pt-0">
+
+
+
+                    <div class="col-lg-3 col-md-6 box-col-4">
+                      <div class="card profit-card">
+                        <div class="card-header pb-0">
+                          <div class="d-flex justify-content-between">
+                            <div class="flex-grow-1">
+                              <p class="square-after f-w-600 header-text-primary "><%=lan.Total%> <%=lan.Customer%><i class="fa fa-circle"> </i></p>
+                              <h4><%= customer[0].total %></h4>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="card-body">
+                          <div class="right-side icon-right-primary"><i class="fa fa-users"></i>
+                            <div class="shap-block">
+                              <div class="rounded-shap animate-bg-primary"><i></i><i></i></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="col-lg-3 col-md-6 box-col-4">
+                      <div class="card visitor-card">
+                        <div class="card-header pb-0">
+                          <div class="d-flex justify-content-between">
+                            <div class="flex-grow-1">
+                              <p class="square-after f-w-600 header-text-info"><%=lan.Active%> <%=lan.Customer%><i class="fa fa-circle"> </i></p>
+                              <h4><%= customer[0].active %></h4>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="card-body">
+                          <div class="right-side icon-right-info"><i class="fa fa-user-circle-o"></i>
+                            <div class="shap-block">
+                              <div class="rounded-shap animate-bg-primary"><i></i><i></i></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+      
+                    <div class="col-lg-3 col-md-12 box-col-4">
+                      <div class="card sell-card">
+                        <div class="card-header pb-0">
+                          <div class="d-flex justify-content-between">
+                            <div class="flex-grow-1">
+                              <p class="square-after f-w-600 header-text-success"><%=lan.Deactivate%> <%=lan.Customer%><i class="fa fa-circle"> </i></p>
+                              <h4><%= customer[0].deactive %></h4>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="card-body">
+                          <div class="right-side icon-right-success"><i class="fa fa-user-times"></i>
+                            <div class="shap-block">
+                              <div class="rounded-shap animate-bg-secondary"><i></i><i></i></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+      
+                    <div class="col-lg-3 col-md-12 box-col-4">
+                      <div class="card sell-card">
+                        <div class="card-header pb-0">
+                          <div class="d-flex justify-content-between">
+                            <div class="flex-grow-1">
+                              <p class="square-after f-w-600 header-text-warning"><%=lan.Unverified%> <%=lan.Sitter%><i class="fa fa-circle"> </i></p>
+                              <h4><%= sitter[0].unverified %></h4>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="card-body">
+                          <div class="right-side icon-right-warning"><i class="fa fa-times-circle"></i>
+                            <div class="shap-block">
+                              <div class="rounded-shap animate-bg-warning"><i></i><i></i></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+
+
+                  </div>
+                </div>
+              </div>
+              
+              
+              
+              <div class="col-12">
+                <div class=" profile-greeting"> 
+                  <div class="p-0">
+                    <h5 class="px-4 py-3 "><%=lan.Book%> <%=lan.Services%> <%=lan.Status%></h5>
+                  </div>              
+                  <div class="row pt-0">
+
+
+                    <div class="col-lg-3 col-md-6 box-col-4">
+                      <div class="card profit-card">
+                        <div class="card-header pb-0">
+                          <div class="d-flex justify-content-between">
+                            <div class="flex-grow-1">
+                              <p class="square-after f-w-600 header-text-primary "><%=lan.Today%> <%=lan.Book%> <%=lan.Services%><i class="fa fa-circle"> </i></p>
+                              <h4><%= ostatus[0].today %></h4>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="card-body">
+                          <div class="right-side icon-right-primary"><i class="fa fa-paw"></i>
+                            <div class="shap-block">
+                              <div class="rounded-shap animate-bg-primary"><i></i><i></i></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="col-lg-3 col-md-6 box-col-4">
+                      <div class="card visitor-card">
+                        <div class="card-header pb-0">
+                          <div class="d-flex justify-content-between">
+                            <div class="flex-grow-1">
+                              <p class="square-after f-w-600 header-text-info"><%=Status[0].name%><i class="fa fa-circle"> </i></p>
+                              <h4><%= ostatus[0].pending %></h4>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="card-body">
+                          <div class="right-side icon-right-info"><i class="fa fa-hourglass-start"></i>
+                            <div class="shap-block">
+                              <div class="rounded-shap animate-bg-primary"><i></i><i></i></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+      
+                    <div class="col-lg-3 col-md-12 box-col-4">
+                      <div class="card sell-card">
+                        <div class="card-header pb-0">
+                          <div class="d-flex justify-content-between">
+                            <div class="flex-grow-1">
+                              <p class="square-after f-w-600 header-text-success"><%=Status[1].name%><i class="fa fa-circle"> </i></p>
+                              <h4><%= ostatus[0].processing %></h4>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="card-body">
+                          <div class="right-side icon-right-success"><i class="fa fa-history"></i>
+                            <div class="shap-block">
+                              <div class="rounded-shap animate-bg-secondary"><i></i><i></i></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+      
+                    <div class="col-lg-3 col-md-12 box-col-4">
+                      <div class="card sell-card">
+                        <div class="card-header pb-0">
+                          <div class="d-flex justify-content-between">
+                            <div class="flex-grow-1">
+                              <p class="square-after f-w-600 header-text-warning"><%=Status[2].name%><i class="fa fa-circle"> </i></p>
+                              <h4><%= ostatus[0].cancel %></h4>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="card-body">
+                          <div class="right-side icon-right-warning"><i class="fa fa-times-circle-o"></i>
+                            <div class="shap-block">
+                              <div class="rounded-shap animate-bg-warning"><i></i><i></i></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+
+
+                  </div>
+                </div>
+              </div>
+
+              
+              
+              <div class="col-12">
+                <div class=" profile-greeting"> 
+                  <div class="p-0">
+                    <h5 class="px-4 py-3 "><%=lan.Book%> <%=lan.Services%> <%=lan.Status%></h5>
+                  </div>              
+                  <div class="row pt-0">
+
+
+
+
+
+                    <div class="col-lg-3 col-md-6 box-col-4">
+                      <div class="card profit-card">
+                        <div class="card-header pb-0">
+                          <div class="d-flex justify-content-between">
+                            <div class="flex-grow-1">
+                              <p class="square-after f-w-600 header-text-primary "><%=Status[5].name%><i class="fa fa-circle"> </i></p>
+                              <h4><%= ostatus[0].complete %></h4>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="card-body">
+                          <div class="right-side icon-right-primary"><i class="fa fa-list-alt"></i>
+                            <div class="shap-block">
+                              <div class="rounded-shap animate-bg-primary"><i></i><i></i></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="col-lg-3 col-md-6 box-col-4">
+                      <div class="card visitor-card">
+                        <div class="card-header pb-0">
+                          <div class="d-flex justify-content-between">
+                            <div class="flex-grow-1">
+                              <p class="square-after f-w-600 header-text-info"><%=Status[3].name%><i class="fa fa-circle"> </i></p>
+                              <h4><%= ostatus[0].start %></h4>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="card-body">
+                          <div class="right-side icon-right-info"><i class="fa fa-step-backward"></i>
+                            <div class="shap-block">
+                              <div class="rounded-shap animate-bg-primary"><i></i><i></i></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+      
+                    <div class="col-lg-3 col-md-12 box-col-4">
+                      <div class="card sell-card">
+                        <div class="card-header pb-0">
+                          <div class="d-flex justify-content-between">
+                            <div class="flex-grow-1">
+                              <p class="square-after f-w-600 header-text-success"><%=Status[4].name%><i class="fa fa-circle"> </i></p>
+                              <h4><%= ostatus[0].end %></h4>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="card-body">
+                          <div class="right-side icon-right-success"><i class="fa fa-step-forward"></i>
+                            <div class="shap-block">
+                              <div class="rounded-shap animate-bg-secondary"><i></i><i></i></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+      
+                    <div class="col-lg-3 col-md-12 box-col-4">
+                      <div class="card sell-card">
+                        <div class="card-header pb-0">
+                          <div class="d-flex justify-content-between">
+                            <div class="flex-grow-1">
+                              <p class="square-after f-w-600 header-text-warning"><%=Status[5].name%> <%=lan.Service%> <%=lan.Rating%><i class="fa fa-circle"></i></p>
+                              <h4><%= parseFloat(service_rating[0].avg_star).toFixed(2) %>/5</h4>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="card-body">
+                          <div class="right-side icon-right-warning"><i class="fa fa-star-half-o"></i>
+                            <div class="shap-block">
+                              <div class="rounded-shap animate-bg-warning"><i></i><i></i></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+
+
+                  </div>
+                </div>
+              </div>
+
+
+            </div>
+          </div>
+          <!-- Container-fluid Ends-->
+        </div>
+
+        <%- include('./partials/footer'); -%>
+        <%- include('./partials/script'); -%>
+  </body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <%- include('./partials/head'); -%>
+    
+</head>
+<body onload="startTime()">
+    <%- include('./partials/header_sidebar'); -%>
+    
+    <!-- tap on top starts-->
+
+        <!-- Page Sidebar Ends-->
+        <div class="page-body">
+          <div class="container-fluid">
+            <div class="page-title">
+              <div class="row">
+                <div class="col-sm-6">
+                  <h3><%=lan.Edit%> <%=lan.Customer%></h3>
+                </div>
+                <div class="col-sm-6">
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                    <li class="breadcrumb-item"><%=lan.Dashboard%></li>
+                    <li class="breadcrumb-item active"><%=lan.Edit%> <%=lan.Customer%></li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Container-fluid starts-->
+          <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <form id="edit_signup_form" class="needs-validation" novalidate="" action="/settings/edit_profile/<%=admin_data.id %>" method="post">
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                        <label class="col-form-label"><%=lan.Name%></label>
+                                        <input class="form-control"value="<%=admin_data.name %>" type="text" name="Name" placeholder="<%=lan.Enter%> Name" required>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                        <label class="col-form-label"><%=lan.Email%></label>
+                                        <input class="form-control" id="edit_cus_email" value="<%=admin_data.email %>" type="text" name="Email" placeholder="<%=lan.Enter%> <%=lan.Email%>" required>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                        <label class="col-form-label"><%=lan.Phone%> <%=lan.Number%>.</label>
+                                        <div class="row">
+                                            <div class="col-4">
+                                                <select class="js-example-basic-single" id="edit_cus_code" name="country_code" required>
+                                                    <option value selected disabled><%=lan.Country%></option>
+                                                    <% CountryCode.forEach((data, x) => { %>
+                                                        <option value="<%= data %>" <%= admin_data.country_code == data ? 'selected' : "" %>> <%= nameCode[x] %> <%= data %> </option>
+                                                    <% }) %>
+                                                </select>
+                                            </div>
+                                            <div class="col-8">
+                                                <input class="form-control" id="edit_cus_phone" value="<%=admin_data.phone %>" type="number" name="phone" placeholder="<%=lan.Enter%> <%=lan.Phone%> <%=lan.Number%>." required>
+                                                <input type="hidden" id="edit_ccode" name="old_ccode" value="<%=admin_data.country_code %>">
+                                                <input type="hidden" id="edit_phone" name="old_phone" value="<%=admin_data.phone %>">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 form-group">
+                                        <label class="col-form-label">Password</label>
+                                        <input class="form-control" type="password" name="Password"  required>
+                                    </div>
+                                    <div class="text-center">
+                                        <p class="text-danger d-none mt-3" id="edit_email_error"><%=lan.This_Email_Id_Already_Registered%>.</p>
+                                        <p class="text-danger d-none mt-3" id="edit_phone_error"><%=lan.This_Phone_No_Already_Registered%>.</p>
+                                        <p class="text-danger d-none mt-3" id="edit_details_error"><%=lan.Please_Enter_All_Detail%>.</p>
+                                    </div>
+                                </div>
+                            </form>
+                            <div class="text-end mt-5">
+                                <button class="btn btn-square btn-primary btn-air-primary edit_detail_btn b-r-10" id="cus_sign_btn" type="submit"><%=lan.Submit%></button> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+          <!-- Container-fluid Ends-->
+        </div>
+
+        <%- include('./partials/footer'); -%>
+        <%- include('./partials/script'); -%>
+  </body>
+</html>

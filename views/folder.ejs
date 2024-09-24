@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <%- include('./partials/head'); -%>
+    
+    <style>
+      .modal-body {
+          max-height: calc(100vh - 170px);
+          overflow-y: auto;
+      }
+  
+      .modal-dialog {
+          max-height: 100vh;
+          margin: 0 auto;
+      }
+  </style>
+</head>
+<body onload="startTime()">
+    <%- include('./partials/header_sidebar'); -%>
+    
+    <!-- tap on top starts-->
+
+        <!-- Page Sidebar Ends-->
+        <div class="page-body">
+          <div class="container-fluid">
+            <div class="page-title">
+              <div class="row">
+                <div class="col-sm-6">
+                  <h3><%=lan.Folder%> <%=lan.Management%></h3>
+                </div>
+                <div class="col-sm-6">
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                    <li class="breadcrumb-item"><%=lan.Dashboard%></li>
+                    <li class="breadcrumb-item active"><%=lan.Folder%> <%=lan.Management%></li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Container-fluid starts-->
+          <div class="container-fluid">
+            <div class="row">
+                <div class="col-xl-12 col-md-12 box-col-70">
+                    <div class="file-content">
+                      <div class="card">
+                        <% let permissions = per != "1" ? per.folder[1] : "1" %>
+                        <div class="card-body file-manager">
+                          <h5 class="">Folders</h5>
+                          <ul class="folder">
+                            <% all_file.forEach((data) => { %>
+                            <li class="folder-box mb-3">
+                              <div class="d-block"><i class="f-44 fa fa-folder txt-warning"></i><a data-bs-toggle="modal" data-bs-target="#add_unitmodal" id="folder_open_click" data-filename="<%=data.file%>"><i class="fa fa-folder-open-o txt-warning me-0 f-22 ellips"></i></a>
+                                <div class="mt-3">  
+                                  <h6><%=data.file%></h6>
+                                  <p><%=data.total_file%> <%=lan.Images%><span class="pull-right"><a class="<%= permissions == 1 ? '' : 'd-none'  %>" href="/settings/delete_folder_file/<%=data.file%>"><i style="color: red; padding-right: 10px;" class="fa fa-trash f-22"> </i></a></span></p>
+                                </div>
+                              </div>
+                            </li>
+                            <% }) %>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+            </div>
+          </div>
+          <!-- Container-fluid Ends-->
+        </div>
+
+
+        <div class="modal fade bd-example-modal-lg py-3" id="add_unitmodal" tabindex="-1" role="dialog" aria-labelledby="add_unitmodal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"><%=lan.Image%> <%=lan.list%></h5>
+                        <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <div class="row g-3" id="show_all_folder_image">
+
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal"><%=lan.Close%></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <%- include('./partials/footer'); -%>
+        <script src="../../js/typeahead/handlebars.js"></script>
+        <script src="../../js/typeahead/typeahead.bundle.js"></script>
+        <script src="../../js/typeahead/typeahead.custom.js"></script>
+        <script src="../../js/typeahead-search/handlebars.js"></script>
+        <script src="../../js/typeahead-search/typeahead-custom.js"></script>
+        <%- include('./partials/script'); -%>
+  </body>
+</html>

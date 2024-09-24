@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <%- include('./partials/head'); -%>
+    
+</head>
+<body onload="startTime()">
+    <%- include('./partials/header_sidebar'); -%>
+    
+    <!-- tap on top starts-->
+
+        <!-- Page Sidebar Ends-->
+        <div class="page-body">
+          <div class="container-fluid">
+            <div class="page-title">
+              <div class="row">
+                <div class="col-sm-6">
+                  <h3><%=lan.Time%> <%=lan.Management%></h3>
+                </div>
+                <div class="col-sm-6">
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                    <li class="breadcrumb-item"><%=lan.Dashboard%></li>
+                    <li class="breadcrumb-item active"><%=lan.Time%> <%=lan.Management%></li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Container-fluid starts-->
+          <div class="container-fluid search-page">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+                          <% let permissions = per != "1" ? per.time_management[1] : "1" %>
+                          <form  class="needs-validation" id="sitter_adpet_form" novalidate="" action="/time/add_time" method="post">
+                              <div class="row">
+                                
+                                <% day_list.forEach((day_data, index) => { %>
+                                  <div class="col-12 d-flex text-center border-bottom pb-3 form-group">
+                                    <div class="col-sm-12 col-md-12 col-lg-1 col-xl-1 d-flex align-items-center justify-content-center">
+                                      <label class="col-form-label f-16 f-w-600"><%=day_data%></label>
+                                    </div>
+                                    <div class="col-sm-12 col-md-12 col-lg-11 col-xl-11">
+                                      
+                                      <div class="row ">
+                                        <% date_time.forEach((date_time, ind) => { %>
+                                          <% if(date_time.day == day_data){ %>
+
+                                            <% let ch_id = date_time.id %>
+                                            <%  let id_check = slect_time.includes(ch_id.toString()) %>
+                                          <div class="col-sm-3 col-md-1 col-lg-1 p-2 time_div">
+                                            <button class="btn btn-square time_box <%= id_check === true ? 'btn-primary' : 'btn-light'  %> <%= permissions == 1 ? '' : 'disabled'  %>" id="time_btn" data-id="<%=date_time.id%>" type="button"><%=date_time.time%></button>
+                                            <input type="hidden" id="time_input" name="time" value="<%= id_check === true ? date_time.id : ''  %>">
+                                          </div>
+                                          <% }; %>
+                                        <% }) %>
+                                      </div>
+
+                                      </div>
+                                  </div>
+                                <% }) %>
+
+                              </div>
+                              <% if(permissions == "1"){ %>
+                              <div class="text-end mt-3">
+                                <button class="btn btn-square btn-primary btn-air-primary add_detail_btn b-r-10" id="sitter_pet_btn" type="submit"><%=lan.Submit%></button> 
+                              </div>
+                              <% } %>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+          <!-- Container-fluid Ends-->
+        </div>
+
+        <%- include('./partials/footer'); -%>
+        <%- include('./partials/script'); -%>
+  </body>
+</html>
