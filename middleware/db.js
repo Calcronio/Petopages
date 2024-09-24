@@ -5,10 +5,10 @@ let connection = mysql.createPool({
     connectTimeout  : 60 * 60 * 1000,
     acquireTimeout  : 60 * 60 * 1000,
     timeout         : 60 * 60 * 1000,
-    host     : 'localhost',
-    user     : 'root',
-    password : 'mysql',
-    database : 'petopages',
+    host     : '217.21.85.154',
+    user     : 'u922183766_petopages',
+    password : 'Calcronio@123',
+    database : 'u922183766_petopages',
     charset: 'utf8mb4'
 });
 
